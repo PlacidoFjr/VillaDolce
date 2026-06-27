@@ -83,9 +83,16 @@ a {
 }
 
 .brand em,
-.site-footer em,
-.hero h1 span {
+.site-footer em {
   font-family: "Parisienne", cursive;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hero h1 span {
+  font-family: "Great Vibes", "Parisienne", cursive;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
@@ -227,9 +234,10 @@ h3 {
 
 .hero h1 span {
   display: block;
-  margin: -0.18em 0 -0.05em;
+  margin: -0.22em 0 -0.08em -0.02em;
   color: var(--espresso);
-  font-size: 1.3em;
+  font-size: 1.42em;
+  line-height: 0.95;
 }
 
 .hero-lead {
