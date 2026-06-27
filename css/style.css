@@ -83,16 +83,9 @@ a {
 }
 
 .brand em,
-.site-footer em {
-  font-family: "Parisienne", cursive;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-}
-
+.site-footer em,
 .hero h1 span {
-  font-family: "Great Vibes", "Parisienne", cursive;
+  font-family: "Parisienne", cursive;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
@@ -124,7 +117,7 @@ a {
   padding: 8px 0;
 }
 
-.site-nav a:not(.nav-cta)::after {
+.site-nav a::after {
   position: absolute;
   right: 0;
   bottom: 4px;
@@ -142,13 +135,6 @@ a {
   transform: scaleX(1);
 }
 
-.nav-cta {
-  padding: 10px 16px;
-  border: 1px solid rgba(184, 138, 67, 0.45);
-  border-radius: 999px;
-  color: var(--chocolate);
-  background: rgba(184, 138, 67, 0.08);
-}
 
 .nav-toggle {
   display: none;
@@ -234,10 +220,9 @@ h3 {
 
 .hero h1 span {
   display: block;
-  margin: -0.22em 0 -0.08em -0.02em;
+  margin: -0.18em 0 -0.05em;
   color: var(--espresso);
-  font-size: 1.42em;
-  line-height: 0.95;
+  font-size: 1.3em;
 }
 
 .hero-lead {
@@ -671,10 +656,6 @@ h3 {
     padding: 10px 8px;
   }
 
-  .nav-cta {
-    margin-top: 6px;
-    text-align: center;
-  }
 
   .hero,
   .split-section,
