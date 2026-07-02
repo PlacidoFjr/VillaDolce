@@ -47,3 +47,37 @@ if ("IntersectionObserver" in window) {
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
+
+const whatsappForm = document.querySelector("[data-whatsapp-form]");
+
+if (whatsappForm) {
+  whatsappForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(whatsappForm);
+    const fields = [
+      ["Nome", formData.get("nome")],
+      ["Ocasião", formData.get("ocasiao")],
+      ["Estilo do presente", formData.get("estilo")],
+      ["Preferências", formData.get("preferencias")]
+    ];
+
+    const filledFields = fields
+      .map(([label, value]) => [label, String(value || "").trim()])
+      .filter(([, value]) => value.length > 0);
+
+    const messageLines = [
+      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de informações sobre uma encomenda personalizada."
+    ];
+
+    if (filledFields.length > 0) {
+      messageLines.push("", "Informações para orçamento:");
+      filledFields.forEach(([label, value]) => {
+        messageLines.push(`${label}: ${value}`);
+      });
+    }
+
+    const url = `https://wa.me/557193875356?text=${encodeURIComponent(messageLines.join("\n"))}`;
+    window.open(url, "_blank", "noopener");
+  });
+}

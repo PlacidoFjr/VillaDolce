@@ -250,7 +250,10 @@ h3 {
   font-size: 0.92rem;
   font-weight: 700;
   line-height: 1.2;
+  font-family: inherit;
   text-align: center;
+  cursor: pointer;
+  appearance: none;
   transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease, border-color 220ms ease;
 }
 
