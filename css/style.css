@@ -593,6 +593,10 @@ h3 {
   box-shadow: 0 0 0 4px rgba(184, 138, 67, 0.12);
 }
 
+.contact-form > .button {
+  margin-top: 22px;
+}
+
 .site-footer {
   display: flex;
   justify-content: space-between;
