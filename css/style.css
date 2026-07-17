@@ -230,6 +230,7 @@ h3 {
   margin: 24px 0 0;
   color: rgba(32, 18, 12, 0.78);
   font-size: clamp(1.08rem, 2vw, 1.34rem);
+  text-wrap: pretty;
 }
 
 .hero-actions {
@@ -415,10 +416,18 @@ h3 {
 .text-column p,
 .page-hero p {
   color: rgba(32, 18, 12, 0.74);
+  text-wrap: pretty;
 }
 
 .category-card p {
-  min-height: 5.8rem;
+  min-height: 6.4rem;
+}
+
+.feature-card p,
+.values-grid p,
+.catalog-copy p,
+.text-column p {
+  max-width: 62ch;
 }
 
 .category-card a {
