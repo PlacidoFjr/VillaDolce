@@ -1,6 +1,15 @@
 const body = document.body;
+const header = document.querySelector("[data-header]");
 const navToggle = document.querySelector("[data-nav-toggle]");
 const nav = document.querySelector("[data-nav]");
+
+const updateHeaderState = () => {
+  if (!header) return;
+  header.classList.toggle("is-scrolled", window.scrollY > 12);
+};
+
+updateHeaderState();
+window.addEventListener("scroll", updateHeaderState, { passive: true });
 
 if (navToggle && nav) {
   navToggle.addEventListener("click", () => {
@@ -29,6 +38,14 @@ document.querySelectorAll(".site-nav a").forEach((link) => {
 });
 
 const revealItems = document.querySelectorAll(".page-reveal");
+const motionItems = document.querySelectorAll(
+  ".category-card, .feature-card, .catalog-item, .values-grid article, .contact-panel, .contact-form"
+);
+
+motionItems.forEach((item, index) => {
+  item.classList.add("motion-item");
+  item.style.setProperty("--stagger", String(index % 6));
+});
 
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver(
@@ -44,8 +61,23 @@ if ("IntersectionObserver" in window) {
   );
 
   revealItems.forEach((item) => observer.observe(item));
+
+  const motionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          motionObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.16 }
+  );
+
+  motionItems.forEach((item) => motionObserver.observe(item));
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
+  motionItems.forEach((item) => item.classList.add("is-visible"));
 }
 
 const whatsappForm = document.querySelector("[data-whatsapp-form]");
