@@ -371,6 +371,8 @@ h3 {
 }
 
 .category-card {
+  display: flex;
+  flex-direction: column;
   padding: 14px;
 }
 
@@ -400,6 +402,10 @@ h3 {
   font-size: 1.65rem;
 }
 
+.category-card h3 {
+  min-height: 3.4rem;
+}
+
 .category-card p,
 .feature-card p,
 .values-grid p,
@@ -411,9 +417,14 @@ h3 {
   color: rgba(32, 18, 12, 0.74);
 }
 
+.category-card p {
+  min-height: 5.8rem;
+}
+
 .category-card a {
   display: inline-flex;
-  margin-top: 6px;
+  margin-top: auto;
+  padding-top: 12px;
   color: var(--gold);
   font-size: 0.9rem;
   font-weight: 800;
@@ -745,6 +756,11 @@ h3 {
   .image-placeholder {
     min-height: 190px;
     letter-spacing: 0.1em;
+  }
+
+  .category-card h3,
+  .category-card p {
+    min-height: 0;
   }
 
   .catalog-media {
