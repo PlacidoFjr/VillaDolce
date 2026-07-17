@@ -33,12 +33,6 @@ body {
   line-height: 1.65;
 }
 
-p {
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-}
-
 img {
   display: block;
   max-width: 100%;
@@ -206,7 +200,6 @@ main {
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.22em;
-  text-align: inherit;
   text-transform: uppercase;
 }
 
