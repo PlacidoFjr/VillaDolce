@@ -88,7 +88,6 @@ function HomePage({ onNavigate }: { onNavigate: (path: string) => void }) {
       catalogItems[0],
       catalogItems[1],
       catalogItems[2],
-      catalogItems[5],
     ],
     [],
   );
