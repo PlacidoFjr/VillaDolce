@@ -91,7 +91,7 @@ export const catalogItems: CatalogItem[] = [
   {
     id: "donuts-artesanais",
     eyebrow: "Categoria 06",
-    title: "Donuts Artesanais",
+    title: "Donuts",
     images: [
       {
         src: `${base}WhatsApp Image 2026-07-19 at 16.06.22 (2).jpeg`,
@@ -111,12 +111,12 @@ export const catalogItems: CatalogItem[] = [
     occasions:
       "aniversários, cafés especiais, lembranças afetivas, kits presenteáveis e encontros personalizados.",
     message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar Donuts Artesanais para uma encomenda.\n\nCategoria: Donuts Artesanais\nPode me ajudar com opções e orçamento?",
+      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar Donuts para uma encomenda.\n\nCategoria: Donuts\nPode me ajudar com opções e orçamento?",
   },
   {
     id: "pipoca-doce-artesanal",
     eyebrow: "Categoria 07",
-    title: "Pipoca Doce Artesanal",
+    title: "Pipoca Doce",
     images: [
       {
         src: `${base}pipoca doce.jpeg`,
@@ -136,6 +136,6 @@ export const catalogItems: CatalogItem[] = [
     occasions:
       "lembrancinhas, aniversários, cafés especiais, eventos, kits corporativos e presentes de carinho.",
     message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar Pipoca Doce Artesanal para uma encomenda.\n\nCategoria: Pipoca Doce Artesanal\nPode me ajudar com opções e orçamento?",
+      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar Pipoca Doce para uma encomenda.\n\nCategoria: Pipoca Doce\nPode me ajudar com opções e orçamento?",
   },
 ];
