@@ -145,7 +145,7 @@ function HomePage({ onNavigate }: { onNavigate: (path: string) => void }) {
         </div>
       </Reveal>
 
-      <Reveal className="section split-section">
+      <Reveal className="section split-section essence-section">
         <div>
           <p className="eyebrow">Essência da marca</p>
           <h2>Um ateliê para transformar carinho em presença</h2>
@@ -257,7 +257,7 @@ function AboutPage() {
         </p>
       </Reveal>
 
-      <Reveal className="section split-section">
+      <Reveal className="section split-section story-section">
         <div className="seal-frame small">
           <img src="/assets/logo-villa-dolce.jpeg" alt="Logo Villa Dolce Ateliê" />
         </div>
