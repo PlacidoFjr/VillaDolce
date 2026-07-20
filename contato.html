@@ -1,80 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Entre em contato com a Villa Dolce Ateliê para encomendas personalizadas.">
-  <title>Contato | Villa Dolce Ateliê</title>
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="apple-touch-icon" href="assets/favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header class="site-header" data-header>
-    <a class="brand" href="index.html" aria-label="Villa Dolce Ateliê - página inicial">
-      <img src="assets/logo-villa-dolce.jpeg" alt="Logo Villa Dolce Ateliê">
-      <span><strong>Villa <em>Dolce</em></strong><small>Ateliê</small></span>
-    </a>
-    <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
-    <nav class="site-nav" data-nav>
-      <a href="index.html">Home</a>
-      <a href="catalogo.html">Catálogo</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="contato.html">Contato</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="page-hero page-reveal">
-      <p class="eyebrow">Contato</p>
-      <h1>Vamos criar uma encomenda personalizada?</h1>
-      <p>Conte a ocasião, o estilo do presente, as preferências de sabores, tons e detalhes especiais. A Villa Dolce prepara uma proposta sob medida para tornar o gesto memorável.</p>
-    </section>
-
-    <section class="contact-section page-reveal">
-      <div class="contact-panel">
-        <h2>Fale pelo WhatsApp</h2>
-        <p>Envie sua mensagem com antecedência para que cada detalhe possa ser pensado com cuidado.</p>
-        <a class="button primary full" href="https://wa.me/557193875356?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Villa%20Dolce%20Ateli%C3%AA%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20uma%20encomenda%20personalizada." target="_blank" rel="noopener">Abrir WhatsApp</a>
-        <div class="contact-lines">
-          <p><strong>Instagram</strong><a href="https://www.instagram.com/villadolceatelie" target="_blank" rel="noopener">@villadolceatelie</a></p>
-          <p><strong>Cidade</strong><span>Vera Cruz - BA e Salvador - BA</span></p>
-          <p><strong>Atendimento</strong><span>Segunda a sexta, das 08:00 às 18:00</span></p>
-          <p><strong>Observações</strong><span>Cestas afetivas, delícias artesanais, presentes personalizados e corporativos feitos sob encomenda.</span></p>
-        </div>
-      </div>
-
-      <form class="contact-form" action="#" method="post" data-whatsapp-form>
-        <h2>Informações para orçamento</h2>
-        <label>
-          Nome
-          <input type="text" name="nome" placeholder="Seu nome">
-        </label>
-        <label>
-          Ocasião
-          <input type="text" name="ocasiao" placeholder="Aniversário, agradecimento, data especial...">
-        </label>
-        <label>
-          Estilo do presente
-          <input type="text" name="estilo" placeholder="Delicado, clássico, romântico, corporativo...">
-        </label>
-        <label>
-          Preferências
-          <textarea name="preferencias" rows="5" placeholder="Sabores, cores, itens desejados, restrições ou detalhes importantes"></textarea>
-        </label>
-        <button class="button secondary full" type="submit">Enviar pelo WhatsApp</button>
-      </form>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div><strong>Villa <em>Dolce</em> Ateliê</strong><p>Cestas afetivas & delícias artesanais.</p></div>
-    <div><a href="https://www.instagram.com/villadolceatelie" target="_blank" rel="noopener">@villadolceatelie</a><a href="https://wa.me/557193875356?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Villa%20Dolce%20Ateli%C3%AA%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20uma%20encomenda%20personalizada." target="_blank" rel="noopener">WhatsApp</a></div>
-  </footer>
-
-  <script src="js/script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Entre em contato com a Villa Dolce Ateliê para encomendas personalizadas." />
+    <title>Contato | Villa Dolce Ateliê</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=Parisienne&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
