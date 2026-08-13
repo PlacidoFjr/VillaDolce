@@ -7,7 +7,7 @@ export type CatalogItem = {
   message: string;
 };
 
-export type CatalogGroup = "cestas-caixas" | "doces" | "salgados" | "bolos-donuts" | "cafe-kits";
+export type CatalogGroup = "cestas-caixas" | "doces-chocolates" | "salgados" | "bolos-donuts" | "cafe-kits";
 
 const whatsappMessage = (title: string) =>
   `Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar ${title} para uma encomenda personalizada.\n\nCategoria: ${title}\nPode me ajudar com opções e orçamento?`;
@@ -35,7 +35,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "biscoito-amanteigado",
-    group: "doces",
+    group: "cafe-kits",
     title: "Biscoito Amanteigado",
     description:
       "Biscoitos delicados, com textura leve e sabor clássico, ideais para compor presentes afetivos ou mesas especiais.",
@@ -45,7 +45,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "sequilho-salgado",
-    group: "salgados",
+    group: "cafe-kits",
     title: "Sequilho Salgado",
     description:
       "Uma versão delicada e surpreendente para quem prefere sabores salgados, com apresentação simples, charmosa e artesanal.",
@@ -55,7 +55,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "pastel-doce",
-    group: "doces",
+    group: "cafe-kits",
     title: "Pastel Doce",
     description:
       "Pastéis doces preparados para trazer aconchego e sabor de celebração, com recheios pensados para cada pedido.",
@@ -105,7 +105,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "doces-finos",
-    group: "doces",
+    group: "doces-chocolates",
     title: "Doces Finos",
     description:
       "Doces de apresentação refinada para compor caixas, cestas e mesas afetivas com um toque elegante e memorável.",
@@ -115,7 +115,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "pipoca-gourmet",
-    group: "cafe-kits",
+    group: "doces-chocolates",
     title: "Pipoca Gourmet",
     description:
       "Pipoca doce preparada para presentear, com sabor delicado e acabamento ideal para kits, lembranças e composições especiais.",
@@ -125,7 +125,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "brownie-bites",
-    group: "doces",
+    group: "doces-chocolates",
     title: "Brownie Bites",
     description:
       "Pequenas porções de brownie com sabor intenso, pensadas para compor presentes, caixas e momentos de puro aconchego.",
@@ -135,7 +135,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "mega-bombom",
-    group: "doces",
+    group: "doces-chocolates",
     title: "Mega Bombom",
     description:
       "Bombom generoso e marcante, preparado para surpreender com recheio especial, presença visual e sabor de celebração.",

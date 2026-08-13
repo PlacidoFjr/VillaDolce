@@ -195,10 +195,10 @@ type CatalogFilter = "todos" | CatalogGroup;
 const catalogFilters: Array<{ id: CatalogFilter; label: string }> = [
   { id: "todos", label: "Todos" },
   { id: "cestas-caixas", label: "Cestas e Caixas" },
-  { id: "doces", label: "Doces" },
+  { id: "cafe-kits", label: "Café e Kits" },
+  { id: "doces-chocolates", label: "Doces e Chocolates" },
   { id: "salgados", label: "Salgados" },
   { id: "bolos-donuts", label: "Bolos e Donuts" },
-  { id: "cafe-kits", label: "Café e Kits" },
 ];
 
 const catalogItemsPerPage = 6;
