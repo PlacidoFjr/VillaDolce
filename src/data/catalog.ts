@@ -7,7 +7,7 @@ export type CatalogItem = {
   message: string;
 };
 
-export type CatalogGroup = "cestas-caixas" | "doces-chocolates" | "salgados" | "bolos-donuts" | "cafe-kits";
+export type CatalogGroup = "cestas-caixas" | "biscoitos" | "doces-chocolates" | "salgados" | "bolos-donuts" | "cafe-kits";
 
 const whatsappMessage = (title: string) =>
   `Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar ${title} para uma encomenda personalizada.\n\nCategoria: ${title}\nPode me ajudar com opções e orçamento?`;
@@ -35,7 +35,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "biscoito-amanteigado",
-    group: "cafe-kits",
+    group: "biscoitos",
     title: "Biscoito Amanteigado",
     description:
       "Biscoitos delicados, com textura leve e sabor clássico, ideais para compor presentes afetivos ou mesas especiais.",
@@ -45,7 +45,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "sequilho-salgado",
-    group: "cafe-kits",
+    group: "biscoitos",
     title: "Sequilho Salgado",
     description:
       "Uma versão delicada e surpreendente para quem prefere sabores salgados, com apresentação simples, charmosa e artesanal.",
@@ -145,7 +145,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "capsula-cappuccino",
-    group: "cafe-kits",
+    group: "doces-chocolates",
     title: "Cápsula de Cappuccino",
     description:
       "Uma delicadeza para acompanhar cafés e presentes, ideal para quem gosta de sabores aconchegantes e experiências afetivas.",
