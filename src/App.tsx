@@ -83,11 +83,10 @@ const pageTitles: Record<Route, string> = {
 
 function HomePage({ onNavigate }: { onNavigate: (path: string) => void }) {
   const previewItems = useMemo(
-    () => [
-      catalogItems[0],
-      catalogItems[1],
-      catalogItems[2],
-    ],
+    () =>
+      ["cestas-afetivas", "caixas-presenteaveis", "doces-finos"]
+        .map((id) => catalogItems.find((item) => item.id === id))
+        .filter((item): item is (typeof catalogItems)[number] => Boolean(item)),
     [],
   );
 
@@ -187,9 +186,8 @@ function HomePage({ onNavigate }: { onNavigate: (path: string) => void }) {
 
 const homeDescriptions: Record<string, string> = {
   "cestas-afetivas": "Composições personalizadas para aniversários, agradecimentos, boas-vindas e gestos de cuidado.",
-  "caixas-presenteaveis": "Caixas elegantes com escolhas delicadas para surpreender com discrição, beleza e significado.",
-  "delicias-artesanais": "Sabores preparados com cuidado para acompanhar momentos especiais e tornar a memória mais doce.",
-  "donuts-artesanais": "Donuts delicados, presenteáveis e feitos sob encomenda para celebrar com charme e sabor.",
+  "caixas-presenteaveis": "Caixas elegantes com escolhas delicadas para surpreender com beleza, intenção e significado.",
+  "doces-finos": "Doces de apresentação refinada para compor caixas, cestas e celebrações com um toque memorável.",
 };
 
 function CatalogPage({ onNavigate }: { onNavigate: (path: string) => void }) {

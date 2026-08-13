@@ -7,82 +7,148 @@ export type CatalogItem = {
   message: string;
 };
 
+const whatsappMessage = (title: string) =>
+  `Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar ${title} para uma encomenda personalizada.\n\nCategoria: ${title}\nPode me ajudar com opções e orçamento?`;
+
 export const catalogItems: CatalogItem[] = [
   {
     id: "cestas-afetivas",
     eyebrow: "Categoria 01",
     title: "Cestas Afetivas",
     description:
-      "Cestas elaboradas para expressar carinho com uma seleção delicada de produtos, sabores e detalhes visuais.",
+      "Composições pensadas para transformar carinho em presença, reunindo delícias, detalhes visuais e escolhas personalizadas.",
     occasions:
       "aniversários, agradecimentos, boas-vindas, autocuidado, visitas especiais e gestos de apoio.",
-    message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar uma Cesta Afetiva personalizada.\n\nCategoria: Cestas Afetivas\nPode me ajudar com opções e orçamento?",
+    message: whatsappMessage("Cestas Afetivas"),
   },
   {
     id: "caixas-presenteaveis",
     eyebrow: "Categoria 02",
-    title: "Caixas Presenteáveis",
+    title: "Caixa Presenteável",
     description:
-      "Caixas refinadas para presentes objetivos, elegantes e cheios de significado, com acabamento boutique.",
+      "Uma opção elegante para presentear com intenção, acabamento delicado e seleção feita conforme a ocasião.",
     occasions:
       "lembranças corporativas, madrinhas, convites especiais, celebrações íntimas e agradecimentos.",
-    message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar uma Caixa Presenteável personalizada.\n\nCategoria: Caixas Presenteáveis\nPode me ajudar com opções e orçamento?",
+    message: whatsappMessage("Caixa Presenteável"),
   },
   {
-    id: "delicias-artesanais",
+    id: "biscoito-amanteigado",
     eyebrow: "Categoria 03",
-    title: "Delícias Artesanais",
+    title: "Biscoito Amanteigado",
     description:
-      "Doces e delicadezas preparados para compor presentes, mesas afetivas ou lembranças de celebrações especiais.",
+      "Biscoitos delicados, com textura leve e sabor clássico, ideais para compor presentes afetivos ou mesas especiais.",
     occasions:
-      "aniversários, encontros, datas comemorativas, cafés especiais e momentos de celebração.",
-    message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar Delícias Artesanais para uma encomenda.\n\nCategoria: Delícias Artesanais\nPode me ajudar com opções e orçamento?",
+      "cafés da tarde, lembrancinhas, kits personalizados, encontros delicados e presentes de carinho.",
+    message: whatsappMessage("Biscoito Amanteigado"),
   },
   {
-    id: "datas-especiais",
+    id: "sequilho-salgado",
     eyebrow: "Categoria 04",
-    title: "Datas Especiais",
+    title: "Sequilho Salgado",
     description:
-      "Edições pensadas para momentos sazonais, mantendo a identidade delicada da Villa Dolce em cada composição.",
+      "Uma versão delicada e surpreendente para quem prefere sabores salgados, com apresentação simples, charmosa e artesanal.",
     occasions:
-      "Dia das Mães, Dia dos Namorados, Natal, Páscoa, Dia dos Professores e celebrações familiares.",
-    message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar uma criação para Data Especial.\n\nCategoria: Datas Especiais\nPode me ajudar com opções e orçamento?",
+      "cafés especiais, encontros, kits corporativos, lembranças afetivas e composições sob encomenda.",
+    message: whatsappMessage("Sequilho Salgado"),
   },
   {
-    id: "personalizados",
+    id: "pastel-doce",
     eyebrow: "Categoria 05",
-    title: "Personalizados",
+    title: "Pastel Doce",
     description:
-      "Criações exclusivas para quem deseja um presente sob medida, com escolha de tons, itens, mensagem e apresentação.",
+      "Pastéis doces preparados para trazer aconchego e sabor de celebração, com recheios pensados para cada pedido.",
     occasions:
-      "pedidos especiais, eventos, kits corporativos, lembranças personalizadas e surpresas afetivas.",
-    message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar uma criação personalizada sob medida.\n\nCategoria: Personalizados\nPode me ajudar com opções e orçamento?",
+      "aniversários, cafés, mesas de doces, presentes personalizados e momentos de celebração.",
+    message: whatsappMessage("Pastel Doce"),
   },
   {
-    id: "donuts-artesanais",
+    id: "empada-doce-salgada",
     eyebrow: "Categoria 06",
-    title: "Donuts",
+    title: "Empada Doce e Salgada",
     description:
-      "Donuts preparados sob encomenda, com acabamento delicado e sabores pensados para presentear ou compor celebrações.",
+      "Empadas em versões doces e salgadas, feitas sob encomenda para compor presentes, cafés e encontros com cuidado.",
     occasions:
-      "aniversários, cafés especiais, lembranças afetivas, kits presenteáveis e encontros personalizados.",
-    message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar Donuts para uma encomenda.\n\nCategoria: Donuts\nPode me ajudar com opções e orçamento?",
+      "cafés especiais, reuniões, aniversários, lembranças corporativas e kits presenteáveis.",
+    message: whatsappMessage("Empada Doce e Salgada"),
   },
   {
-    id: "pipoca-doce-artesanal",
+    id: "mini-cake-donuts",
     eyebrow: "Categoria 07",
-    title: "Pipoca Doce",
+    title: "Mini Cake Donuts",
     description:
-      "Pipoca doce delicada, preparada para lembranças afetivas, kits presenteáveis e composições personalizadas.",
+      "Mini donuts delicados e presenteáveis, com cobertura charmosa e sabores escolhidos para deixar a experiência mais doce.",
     occasions:
-      "lembrancinhas, aniversários, cafés especiais, eventos, kits corporativos e presentes de carinho.",
-    message:
-      "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar Pipoca Doce para uma encomenda.\n\nCategoria: Pipoca Doce\nPode me ajudar com opções e orçamento?",
+      "aniversários, lembrancinhas, cafés especiais, kits personalizados e celebrações descontraídas.",
+    message: whatsappMessage("Mini Cake Donuts"),
+  },
+  {
+    id: "mini-vulcao",
+    eyebrow: "Categoria 08",
+    title: "Mini Vulcão",
+    description:
+      "Mini bolos vulcão em porções especiais, com cobertura generosa e visual convidativo para presentes cheios de sabor.",
+    occasions:
+      "aniversários, datas especiais, surpresas afetivas, cafés e encomendas personalizadas.",
+    message: whatsappMessage("Mini Vulcão"),
+  },
+  {
+    id: "mini-bolo-presente",
+    eyebrow: "Categoria 09",
+    title: "Mini Bolo para Presente",
+    description:
+      "Bolos pequenos e elegantes, preparados para presentear com delicadeza, sabor e acabamento pensado nos detalhes.",
+    occasions:
+      "aniversários, agradecimentos, comemorações íntimas, boas-vindas e presentes personalizados.",
+    message: whatsappMessage("Mini Bolo para Presente"),
+  },
+  {
+    id: "doces-finos",
+    eyebrow: "Categoria 10",
+    title: "Doces Finos",
+    description:
+      "Doces de apresentação refinada para compor caixas, cestas e mesas afetivas com um toque elegante e memorável.",
+    occasions:
+      "casamentos, aniversários, eventos, lembranças especiais, kits boutique e celebrações sofisticadas.",
+    message: whatsappMessage("Doces Finos"),
+  },
+  {
+    id: "pipoca-gourmet",
+    eyebrow: "Categoria 11",
+    title: "Pipoca Gourmet",
+    description:
+      "Pipoca doce preparada para presentear, com sabor delicado e acabamento ideal para kits, lembranças e composições especiais.",
+    occasions:
+      "lembrancinhas, aniversários, cafés especiais, eventos, kits corporativos e presentes afetivos.",
+    message: whatsappMessage("Pipoca Gourmet"),
+  },
+  {
+    id: "brownie-bites",
+    eyebrow: "Categoria 12",
+    title: "Brownie Bites",
+    description:
+      "Pequenas porções de brownie com sabor intenso, pensadas para compor presentes, caixas e momentos de puro aconchego.",
+    occasions:
+      "aniversários, cafés, kits presenteáveis, encontros, lembranças corporativas e mesas de doces.",
+    message: whatsappMessage("Brownie Bites"),
+  },
+  {
+    id: "mega-bombom",
+    eyebrow: "Categoria 13",
+    title: "Mega Bombom",
+    description:
+      "Bombom generoso e marcante, preparado para surpreender com recheio especial, presença visual e sabor de celebração.",
+    occasions:
+      "presentes românticos, aniversários, datas especiais, surpresas afetivas e encomendas personalizadas.",
+    message: whatsappMessage("Mega Bombom"),
+  },
+  {
+    id: "capsula-cappuccino",
+    eyebrow: "Categoria 14",
+    title: "Cápsula de Cappuccino",
+    description:
+      "Uma delicadeza para acompanhar cafés e presentes, ideal para quem gosta de sabores aconchegantes e experiências afetivas.",
+    occasions:
+      "cafés especiais, kits de inverno, cestas afetivas, lembranças corporativas e presentes de cuidado.",
+    message: whatsappMessage("Cápsula de Cappuccino"),
   },
 ];
