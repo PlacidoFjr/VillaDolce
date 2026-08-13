@@ -227,7 +227,9 @@ main {
 .hero,
 .section,
 .page-hero,
+.catalog-tools,
 .catalog-list,
+.catalog-pagination,
 .contact-section,
 .cta-band {
   width: min(1160px, calc(100% - 36px));
@@ -681,6 +683,49 @@ h3 {
   padding: 16px 0 clamp(60px, 8vw, 96px);
 }
 
+.catalog-tools {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(20px, 4vw, 44px);
+  align-items: end;
+  padding: 8px 0 clamp(24px, 4vw, 38px);
+}
+
+.catalog-tools h2 {
+  margin: 0;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+}
+
+.catalog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.catalog-filters button {
+  border: 1px solid rgba(184, 138, 67, 0.28);
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: rgba(59, 33, 20, 0.78);
+  background: rgba(255, 250, 243, 0.72);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color 220ms ease, background 220ms ease, border-color 220ms ease, box-shadow 220ms ease, transform 220ms var(--ease-premium);
+}
+
+.catalog-filters button:hover,
+.catalog-filters button.is-active {
+  border-color: rgba(184, 138, 67, 0.56);
+  color: var(--ivory);
+  background: var(--chocolate);
+  box-shadow: 0 12px 28px rgba(59, 33, 20, 0.13);
+  transform: translateY(-2px);
+}
+
 .catalog-item {
   display: grid;
   grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
@@ -750,6 +795,35 @@ h3 {
 
 .catalog-copy strong {
   color: var(--chocolate);
+}
+
+.catalog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 0 clamp(60px, 8vw, 96px);
+}
+
+.catalog-pagination span {
+  min-width: 120px;
+  color: rgba(59, 33, 20, 0.68);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.catalog-pagination .button {
+  width: auto;
+  min-width: 128px;
+}
+
+.catalog-pagination .button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+  transform: none;
 }
 
 .story-hero {
@@ -992,6 +1066,15 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .catalog-tools {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .catalog-filters {
+    justify-content: flex-start;
+  }
+
   .catalog-item {
     grid-template-columns: 1fr;
   }
@@ -1026,7 +1109,9 @@ h3 {
   .hero,
   .section,
   .page-hero,
+  .catalog-tools,
   .catalog-list,
+  .catalog-pagination,
   .contact-section,
   .cta-band {
     width: min(100% - 28px, 1160px);
@@ -1042,6 +1127,26 @@ h3 {
 
   .button {
     width: 100%;
+  }
+
+  .catalog-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .catalog-filters button {
+    padding-inline: 12px;
+  }
+
+  .catalog-pagination {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .catalog-pagination span {
+    order: -1;
+    min-width: 0;
   }
 
   .category-card h3,

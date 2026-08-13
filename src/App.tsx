@@ -2,7 +2,7 @@ import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Reveal } from "@/components/Reveal";
-import { catalogItems } from "@/data/catalog";
+import { catalogItems, type CatalogGroup } from "@/data/catalog";
 import { whatsappUrl } from "@/lib/utils";
 
 const defaultMessage =
@@ -190,7 +190,73 @@ const homeDescriptions: Record<string, string> = {
   "doces-finos": "Doces de apresentação refinada para compor caixas, cestas e celebrações com um toque memorável.",
 };
 
+type CatalogFilter = "todos" | CatalogGroup;
+
+const catalogFilters: Array<{ id: CatalogFilter; label: string }> = [
+  { id: "todos", label: "Todos" },
+  { id: "cestas-caixas", label: "Cestas e Caixas" },
+  { id: "doces", label: "Doces" },
+  { id: "salgados", label: "Salgados" },
+  { id: "bolos-donuts", label: "Bolos e Donuts" },
+  { id: "cafe-kits", label: "Café e Kits" },
+];
+
+const catalogItemsPerPage = 6;
+
 function CatalogPage({ onNavigate }: { onNavigate: (path: string) => void }) {
+  const [activeFilter, setActiveFilter] = useState<CatalogFilter>("todos");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [targetHash, setTargetHash] = useState(() => window.location.hash.replace("#", ""));
+
+  const filteredItems = useMemo(
+    () =>
+      activeFilter === "todos"
+        ? catalogItems
+        : catalogItems.filter((item) => item.group === activeFilter),
+    [activeFilter],
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / catalogItemsPerPage));
+  const visibleItems = filteredItems.slice(
+    (currentPage - 1) * catalogItemsPerPage,
+    currentPage * catalogItemsPerPage,
+  );
+
+  useEffect(() => {
+    if (!targetHash) return;
+
+    const targetIndex = catalogItems.findIndex((item) => item.id === targetHash);
+
+    if (targetIndex >= 0) {
+      setActiveFilter("todos");
+      setCurrentPage(Math.floor(targetIndex / catalogItemsPerPage) + 1);
+    }
+  }, [targetHash]);
+
+  useEffect(() => {
+    if (!targetHash) return;
+
+    window.setTimeout(() => {
+      document.getElementById(targetHash)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTargetHash("");
+    }, 120);
+  }, [currentPage, targetHash]);
+
+  function selectFilter(filter: CatalogFilter) {
+    setTargetHash("");
+    setActiveFilter(filter);
+    setCurrentPage(1);
+    window.history.replaceState({}, "", "/catalogo");
+  }
+
+  function goToPage(page: number) {
+    const nextPage = Math.min(Math.max(page, 1), totalPages);
+    setCurrentPage(nextPage);
+    window.setTimeout(() => {
+      document.querySelector("[data-catalog-start]")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 40);
+  }
+
   return (
     <>
       <Reveal className="page-hero">
@@ -201,8 +267,28 @@ function CatalogPage({ onNavigate }: { onNavigate: (path: string) => void }) {
         </p>
       </Reveal>
 
-      <Reveal className="catalog-list" aria-label="Categorias do catálogo">
-        {catalogItems.map((item, index) => (
+      <Reveal className="catalog-tools" data-catalog-start>
+        <div>
+          <p className="eyebrow">Filtrar catálogo</p>
+          <h2>Escolha por tipo de encomenda</h2>
+        </div>
+        <div className="catalog-filters" aria-label="Filtros do catálogo">
+          {catalogFilters.map((filter) => (
+            <button
+              aria-pressed={activeFilter === filter.id}
+              className={activeFilter === filter.id ? "is-active" : ""}
+              key={filter.id}
+              type="button"
+              onClick={() => selectFilter(filter.id)}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal className="catalog-list" aria-label="Categorias do catálogo" aria-live="polite">
+        {visibleItems.map((item, index) => (
           <article className="catalog-item catalog-item-text motion-item is-visible" id={item.id} key={item.id} style={{ "--stagger": index % 6 } as CSSProperties}>
             <div className="catalog-copy">
               <p className="eyebrow">{item.eyebrow}</p>
@@ -218,6 +304,20 @@ function CatalogPage({ onNavigate }: { onNavigate: (path: string) => void }) {
           </article>
         ))}
       </Reveal>
+
+      {totalPages > 1 && (
+        <Reveal className="catalog-pagination" aria-label="Paginação do catálogo">
+          <button className="button ghost" type="button" disabled={currentPage === 1} onClick={() => goToPage(currentPage - 1)}>
+            Anterior
+          </button>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button className="button ghost" type="button" disabled={currentPage === totalPages} onClick={() => goToPage(currentPage + 1)}>
+            Próxima
+          </button>
+        </Reveal>
+      )}
 
       <Reveal className="cta-band">
         <p className="eyebrow">Orçamento individual</p>

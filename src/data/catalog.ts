@@ -1,5 +1,6 @@
 export type CatalogItem = {
   id: string;
+  group: CatalogGroup;
   eyebrow: string;
   title: string;
   description: string;
@@ -7,12 +8,15 @@ export type CatalogItem = {
   message: string;
 };
 
+export type CatalogGroup = "cestas-caixas" | "doces" | "salgados" | "bolos-donuts" | "cafe-kits";
+
 const whatsappMessage = (title: string) =>
   `Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar ${title} para uma encomenda personalizada.\n\nCategoria: ${title}\nPode me ajudar com opções e orçamento?`;
 
 export const catalogItems: CatalogItem[] = [
   {
     id: "cestas-afetivas",
+    group: "cestas-caixas",
     eyebrow: "Categoria 01",
     title: "Cestas Afetivas",
     description:
@@ -23,6 +27,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "caixas-presenteaveis",
+    group: "cestas-caixas",
     eyebrow: "Categoria 02",
     title: "Caixa Presenteável",
     description:
@@ -33,6 +38,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "biscoito-amanteigado",
+    group: "doces",
     eyebrow: "Categoria 03",
     title: "Biscoito Amanteigado",
     description:
@@ -43,6 +49,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "sequilho-salgado",
+    group: "salgados",
     eyebrow: "Categoria 04",
     title: "Sequilho Salgado",
     description:
@@ -53,6 +60,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "pastel-doce",
+    group: "doces",
     eyebrow: "Categoria 05",
     title: "Pastel Doce",
     description:
@@ -63,6 +71,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "empada-doce-salgada",
+    group: "salgados",
     eyebrow: "Categoria 06",
     title: "Empada Doce e Salgada",
     description:
@@ -73,6 +82,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "mini-cake-donuts",
+    group: "bolos-donuts",
     eyebrow: "Categoria 07",
     title: "Mini Cake Donuts",
     description:
@@ -83,6 +93,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "mini-vulcao",
+    group: "bolos-donuts",
     eyebrow: "Categoria 08",
     title: "Mini Vulcão",
     description:
@@ -93,6 +104,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "mini-bolo-presente",
+    group: "bolos-donuts",
     eyebrow: "Categoria 09",
     title: "Mini Bolo para Presente",
     description:
@@ -103,6 +115,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "doces-finos",
+    group: "doces",
     eyebrow: "Categoria 10",
     title: "Doces Finos",
     description:
@@ -113,6 +126,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "pipoca-gourmet",
+    group: "cafe-kits",
     eyebrow: "Categoria 11",
     title: "Pipoca Gourmet",
     description:
@@ -123,6 +137,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "brownie-bites",
+    group: "doces",
     eyebrow: "Categoria 12",
     title: "Brownie Bites",
     description:
@@ -133,6 +148,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "mega-bombom",
+    group: "doces",
     eyebrow: "Categoria 13",
     title: "Mega Bombom",
     description:
@@ -143,6 +159,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "capsula-cappuccino",
+    group: "cafe-kits",
     eyebrow: "Categoria 14",
     title: "Cápsula de Cappuccino",
     description:
