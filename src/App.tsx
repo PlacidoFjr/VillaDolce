@@ -1,7 +1,6 @@
 import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { ProductCarousel } from "@/components/ui/ProductCarousel";
 import { Reveal } from "@/components/Reveal";
 import { catalogItems } from "@/data/catalog";
 import { whatsappUrl } from "@/lib/utils";
@@ -127,14 +126,7 @@ function HomePage({ onNavigate }: { onNavigate: (path: string) => void }) {
         </div>
         <div className="category-grid">
           {previewItems.map((item, index) => (
-            <article className="category-card motion-item is-visible" key={item.id} style={{ "--stagger": index } as CSSProperties}>
-              {item.images ? (
-                <figure className="product-thumb">
-                  <img src={item.images[0].src} alt={item.images[0].alt} />
-                </figure>
-              ) : (
-                <div className="image-placeholder">{item.placeholder}</div>
-              )}
+            <article className="category-card text-only-card motion-item is-visible" key={item.id} style={{ "--stagger": index } as CSSProperties}>
               <h3>{item.title}</h3>
               <p>{homeDescriptions[item.id] ?? item.description}</p>
               <button type="button" onClick={() => onNavigate(`/catalogo#${item.id}`)}>
@@ -213,12 +205,7 @@ function CatalogPage({ onNavigate }: { onNavigate: (path: string) => void }) {
 
       <Reveal className="catalog-list" aria-label="Categorias do catálogo">
         {catalogItems.map((item, index) => (
-          <article className="catalog-item motion-item is-visible" id={item.id} key={item.id} style={{ "--stagger": index % 6 } as CSSProperties}>
-            {item.images ? (
-              <ProductCarousel images={item.images} label={item.title} />
-            ) : (
-              <div className="catalog-media image-placeholder">{item.placeholder}</div>
-            )}
+          <article className="catalog-item catalog-item-text motion-item is-visible" id={item.id} key={item.id} style={{ "--stagger": index % 6 } as CSSProperties}>
             <div className="catalog-copy">
               <p className="eyebrow">{item.eyebrow}</p>
               <h2>{item.title}</h2>

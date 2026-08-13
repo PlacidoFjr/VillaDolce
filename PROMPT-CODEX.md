@@ -181,15 +181,7 @@ Apesar de ser equilibrado para desktop e mobile, garantir que a experiência no 
 
 Copie a logo para a pasta `assets` e use no site.
 
-Para fotos de produtos, use placeholders elegantes com indicação clara de onde substituir depois:
-
-```text
-[FOTO_PRODUTO_1]
-[FOTO_PRODUTO_2]
-[FOTO_PRODUTO_3]
-[FOTO_PRODUTO_4]
-[FOTO_PRODUTO_5]
-```
+A versão atual será publicada sem fotos de produto e sem placeholders visuais. Manter apenas a logo da marca.
 
 Não usar preços, carrinho, pagamento online ou painel administrativo nesta primeira versão.
 
