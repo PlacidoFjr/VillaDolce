@@ -291,7 +291,6 @@ function CatalogPage({ onNavigate }: { onNavigate: (path: string) => void }) {
         {visibleItems.map((item, index) => (
           <article className="catalog-item catalog-item-text motion-item is-visible" id={item.id} key={item.id} style={{ "--stagger": index % 6 } as CSSProperties}>
             <div className="catalog-copy">
-              <p className="eyebrow">{item.eyebrow}</p>
               <h2>{item.title}</h2>
               <p>{item.description}</p>
               <p>
