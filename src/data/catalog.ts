@@ -55,7 +55,7 @@ export const catalogItems: CatalogItem[] = [
   },
   {
     id: "pastel-doce",
-    group: "cafe-kits",
+    group: "doces-chocolates",
     title: "Pastel Doce",
     description:
       "Pastéis doces preparados para trazer aconchego e sabor de celebração, com recheios pensados para cada pedido.",
