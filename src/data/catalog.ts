@@ -7,7 +7,7 @@ export type CatalogItem = {
   message: string;
 };
 
-export type CatalogGroup = "cestas-caixas" | "biscoitos" | "doces-chocolates" | "salgados" | "bolos-donuts" | "cafe-kits";
+export type CatalogGroup = "cestas-caixas" | "biscoitos" | "doces-chocolates" | "sobremesas" | "salgados" | "bolos-donuts";
 
 const whatsappMessage = (title: string) =>
   `Olá, vim pelo site da Villa Dolce Ateliê e gostaria de consultar ${title} para uma encomenda personalizada.\n\nCategoria: ${title}\nPode me ajudar com opções e orçamento?`;
@@ -34,44 +34,84 @@ export const catalogItems: CatalogItem[] = [
     message: whatsappMessage("Caixa Presenteável"),
   },
   {
-    id: "biscoito-amanteigado",
+    id: "biscoitos-amanteigados",
     group: "biscoitos",
-    title: "Biscoito Amanteigado",
+    title: "Biscoitos Amanteigados",
     description:
-      "Biscoitos delicados, com textura leve e sabor clássico, ideais para compor presentes afetivos ou mesas especiais.",
+      "Biscoitos delicados, com textura leve e sabor clássico, preparados para acompanhar cafés, lembranças e presentes afetivos.",
     occasions:
       "cafés da tarde, lembrancinhas, kits personalizados, encontros delicados e presentes de carinho.",
-    message: whatsappMessage("Biscoito Amanteigado"),
+    message: whatsappMessage("Biscoitos Amanteigados"),
   },
   {
     id: "sequilho-salgado",
     group: "biscoitos",
     title: "Sequilho Salgado",
     description:
-      "Uma versão delicada e surpreendente para quem prefere sabores salgados, com apresentação simples, charmosa e artesanal.",
+      "Uma opção salgada leve e charmosa, feita para compor kits, cafés especiais e momentos simples com acabamento cuidadoso.",
     occasions:
       "cafés especiais, encontros, kits corporativos, lembranças afetivas e composições sob encomenda.",
     message: whatsappMessage("Sequilho Salgado"),
   },
   {
-    id: "pastel-doce",
+    id: "pastelzinho-doce",
     group: "doces-chocolates",
-    title: "Pastel Doce",
+    title: "Pastelzinho Doce",
     description:
-      "Pastéis doces preparados para trazer aconchego e sabor de celebração, com recheios pensados para cada pedido.",
+      "Pastelzinhos doces preparados para trazer aconchego e sabor de celebração, com recheios pensados para cada pedido.",
     occasions:
       "aniversários, cafés, mesas de doces, presentes personalizados e momentos de celebração.",
-    message: whatsappMessage("Pastel Doce"),
+    message: whatsappMessage("Pastelzinho Doce"),
   },
   {
-    id: "empada-doce-salgada",
-    group: "salgados",
-    title: "Empada Doce e Salgada",
+    id: "empada-doce",
+    group: "doces-chocolates",
+    title: "Empada Doce",
     description:
-      "Empadas em versões doces e salgadas, feitas sob encomenda para compor presentes, cafés e encontros com cuidado.",
+      "Empadas doces com massa delicada e recheios especiais, pensadas para surpreender em presentes e mesas afetivas.",
+    occasions:
+      "cafés, aniversários, lembranças personalizadas, caixas presenteáveis e encontros especiais.",
+    message: whatsappMessage("Empada Doce"),
+  },
+  {
+    id: "empada-salgada",
+    group: "salgados",
+    title: "Empada Salgada",
+    description:
+      "Empadas salgadas feitas sob encomenda, com sabor acolhedor e apresentação cuidadosa para cafés, reuniões e kits.",
     occasions:
       "cafés especiais, reuniões, aniversários, lembranças corporativas e kits presenteáveis.",
-    message: whatsappMessage("Empada Doce e Salgada"),
+    message: whatsappMessage("Empada Salgada"),
+  },
+  {
+    id: "mousses",
+    group: "sobremesas",
+    title: "Mousses",
+    description:
+      "Sobremesas cremosas e delicadas, ideais para compor celebrações leves, lembranças doces e pedidos personalizados.",
+    occasions:
+      "aniversários, almoços especiais, cafés, encontros familiares e mesas de sobremesa.",
+    message: whatsappMessage("Mousses"),
+  },
+  {
+    id: "tortinhas",
+    group: "sobremesas",
+    title: "Tortinhas",
+    description:
+      "Tortinhas individuais com visual delicado e sabor marcante, perfeitas para presentear ou servir em momentos especiais.",
+    occasions:
+      "cafés, aniversários, datas comemorativas, encontros íntimos e caixas personalizadas.",
+    message: whatsappMessage("Tortinhas"),
+  },
+  {
+    id: "pudim",
+    group: "sobremesas",
+    title: "Pudim",
+    description:
+      "Um clássico afetivo em apresentação especial, feito para levar conforto, memória e sabor às encomendas da Villa Dolce.",
+    occasions:
+      "almoços em família, aniversários, presentes afetivos, celebrações íntimas e momentos de carinho.",
+    message: whatsappMessage("Pudim"),
   },
   {
     id: "mini-cake-donuts",
@@ -114,14 +154,24 @@ export const catalogItems: CatalogItem[] = [
     message: whatsappMessage("Doces Finos"),
   },
   {
-    id: "pipoca-gourmet",
+    id: "trufas",
     group: "doces-chocolates",
-    title: "Pipoca Gourmet",
+    title: "Trufas",
     description:
-      "Pipoca doce preparada para presentear, com sabor delicado e acabamento ideal para kits, lembranças e composições especiais.",
+      "Trufas delicadas e marcantes, com recheios especiais para compor presentes sofisticados e momentos de doçura.",
     occasions:
-      "lembrancinhas, aniversários, cafés especiais, eventos, kits corporativos e presentes afetivos.",
-    message: whatsappMessage("Pipoca Gourmet"),
+      "presentes românticos, lembrancinhas, datas especiais, caixas personalizadas e celebrações afetivas.",
+    message: whatsappMessage("Trufas"),
+  },
+  {
+    id: "capsula-cappuccino",
+    group: "doces-chocolates",
+    title: "Cápsula de Cappuccino",
+    description:
+      "Uma delicadeza para acompanhar cafés e presentes, ideal para quem gosta de sabores aconchegantes e experiências afetivas.",
+    occasions:
+      "cafés especiais, kits de inverno, cestas afetivas, lembranças corporativas e presentes de cuidado.",
+    message: whatsappMessage("Cápsula de Cappuccino"),
   },
   {
     id: "brownie-bites",
@@ -144,13 +194,13 @@ export const catalogItems: CatalogItem[] = [
     message: whatsappMessage("Mega Bombom"),
   },
   {
-    id: "capsula-cappuccino",
+    id: "pipoca-gourmet",
     group: "doces-chocolates",
-    title: "Cápsula de Cappuccino",
+    title: "Pipoca Gourmet",
     description:
-      "Uma delicadeza para acompanhar cafés e presentes, ideal para quem gosta de sabores aconchegantes e experiências afetivas.",
+      "Pipoca doce preparada para presentear, com sabor delicado e acabamento ideal para kits, lembranças e composições especiais.",
     occasions:
-      "cafés especiais, kits de inverno, cestas afetivas, lembranças corporativas e presentes de cuidado.",
-    message: whatsappMessage("Cápsula de Cappuccino"),
+      "lembrancinhas, aniversários, cafés especiais, eventos, kits corporativos e presentes afetivos.",
+    message: whatsappMessage("Pipoca Gourmet"),
   },
 ];

@@ -196,8 +196,8 @@ const catalogFilters: Array<{ id: CatalogFilter; label: string }> = [
   { id: "todos", label: "Todos" },
   { id: "cestas-caixas", label: "Cestas e Caixas" },
   { id: "biscoitos", label: "Biscoitos Doces e Salgados" },
-  { id: "cafe-kits", label: "Café e Kits" },
   { id: "doces-chocolates", label: "Doces e Chocolates" },
+  { id: "sobremesas", label: "Sobremesas" },
   { id: "salgados", label: "Salgados" },
   { id: "bolos-donuts", label: "Bolos e Donuts" },
 ];
