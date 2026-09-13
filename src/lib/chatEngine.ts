@@ -198,7 +198,22 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
   }
 
   if (hasAny(query, ["feedback", "avaliacao", "avaliar", "depoimento", "mural"])) return feedbackAnswer(session);
-  if (hasAny(query, ["pedido", "encomenda", "encomendar", "comprar", "whatsapp", "falar com alguem"])) return orderAnswer(session);
+  if (
+    hasAny(query, [
+      "whatsapp",
+      "whats",
+      "wpp",
+      "zap",
+      "falar com alguem",
+      "falar com atendente",
+      "falar no atendimento",
+      "atendimento humano",
+      "pessoa de verdade",
+    ])
+  ) {
+    return humanServiceAnswer(session);
+  }
+  if (hasAny(query, ["pedido", "encomenda", "encomendar", "comprar"])) return orderAnswer(session);
 
   const requestedStyle = chatStyles.find((style) => style.terms.some((term) => includesTerm(query, normalize(term))));
   if (session.awaiting === "style" && requestedStyle) return giftResults(session, requestedStyle.id);
@@ -389,6 +404,17 @@ function orderAnswer(session: ChatSession): ChatAnswer {
     [
       { label: "Escolher um produto", type: "reply", value: "catalog:start" },
       { label: "Iniciar pedido", type: "whatsapp", value: defaultWhatsappMessage() },
+      { label: "Voltar ao início", type: "reset", value: "reset" },
+    ],
+  );
+}
+
+function humanServiceAnswer(session: ChatSession): ChatAnswer {
+  return answer(
+    "Claro. Você pode continuar diretamente com o atendimento da Villa Dolce pelo WhatsApp.",
+    session,
+    [
+      { label: "Abrir WhatsApp", type: "whatsapp", value: defaultWhatsappMessage() },
       { label: "Voltar ao início", type: "reset", value: "reset" },
     ],
   );

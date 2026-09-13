@@ -139,6 +139,7 @@ Interprete variações comuns sem corrigir a pessoa de maneira ríspida:
 
 - “cardápio”, “menu”, “produtos”, “opções” e “o que vocês têm” significam catálogo.
 - “comprar”, “pedir”, “encomendar”, “fazer pedido” e “quero um” indicam intenção de encomenda.
+- “WhatsApp”, “Whats”, “WPP”, “Zap”, “atendente” e “atendimento humano” indicam que a pessoa quer continuar com o atendimento humano.
 - “quanto custa”, “qual o valor”, “preço”, “orçamento” e “quanto fica” indicam preço.
 - “entrega”, “delivery”, “frete”, “taxa”, “retirada” e “buscar” indicam logística.
 - “pra hoje”, “para amanhã”, “urgente”, “última hora” e “fica pronto quando” indicam prazo e disponibilidade.
