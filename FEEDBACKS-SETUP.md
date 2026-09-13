@@ -12,4 +12,4 @@ A rota pública do mural é `/feedbacks`. Ela funciona em modo de demonstração
 
 Os novos feedbacks entram com `approved = false`. Para publicar um depoimento, abra a tabela `feedbacks` no Table Editor do Supabase, revise o conteúdo e altere `approved` para `true`.
 
-O QR Code é gerado automaticamente com o domínio atual. Portanto, no site publicado ele apontará para a URL pública da própria Vercel ou para o domínio personalizado.
+O QR Code usado nas embalagens deve apontar para `https://SEU-DOMINIO/feedbacks`. Ele não é exibido dentro da página, pois será aplicado diretamente nos materiais da Villa Dolce.

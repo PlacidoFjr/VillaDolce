@@ -1,11 +1,10 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, Download, Heart, MessageCircleHeart, QrCode, Share2, Star, X } from "lucide-react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowLeft, Check, ChevronDown, Download, Heart, MessageCircleHeart, Share2, Star, X } from "lucide-react";
 import { catalogItems } from "@/data/catalog";
 import { downloadFeedbackStory } from "@/lib/feedbackArtwork";
 import {
   createFeedback,
   getApprovedFeedbacks,
-  isFeedbackDemoMode,
   type FeedbackEntry,
 } from "@/lib/feedbackStore";
 
@@ -30,13 +29,14 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [loadError, setLoadError] = useState(false);
   const [shareNotice, setShareNotice] = useState("");
+  const [isProductOpen, setIsProductOpen] = useState(false);
+  const productMenuRef = useRef<HTMLDivElement>(null);
 
   const products = useMemo(
     () => [...new Set(catalogItems.map((item) => item.title))].sort((a, b) => a.localeCompare(b, "pt-BR")),
     [],
   );
   const feedbackUrl = typeof window === "undefined" ? "" : `${window.location.origin}/feedbacks`;
-  const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=420x420&margin=20&color=3b2114&bgcolor=fffaf3&data=${encodeURIComponent(feedbackUrl)}`;
 
   async function loadFeedbacks() {
     try {
@@ -51,9 +51,18 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
     void loadFeedbacks();
   }, []);
 
+  useEffect(() => {
+    function closeProductMenu(event: PointerEvent) {
+      if (!productMenuRef.current?.contains(event.target as Node)) setIsProductOpen(false);
+    }
+
+    document.addEventListener("pointerdown", closeProductMenu);
+    return () => document.removeEventListener("pointerdown", closeProductMenu);
+  }, []);
+
   async function submitFeedback(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (form.website || form.rating === 0 || !form.consent) return;
+    if (form.website || !form.product || form.rating === 0 || !form.consent) return;
 
     try {
       setStatus("sending");
@@ -149,11 +158,7 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
                 <span><Heart aria-hidden="true" size={30} /></span>
                 <p className="eyebrow">Recebido com carinho</p>
                 <h2>Obrigada por compartilhar esse momento.</h2>
-                <p>
-                  {isFeedbackDemoMode
-                    ? "Seu feedback já está disponível no mural desta demonstração."
-                    : "Seu feedback será publicado no mural depois da aprovação da Villa Dolce."}
-                </p>
+                <p>Seu feedback foi recebido e seguirá para a revisão cuidadosa da Villa Dolce.</p>
                 <div className="feedback-success-actions">
                   <button className="button primary" type="button" onClick={() => setActiveView("wall")}>Ver o mural</button>
                   <button className="button ghost" type="button" onClick={() => setStatus("idle")}>Enviar outro</button>
@@ -172,18 +177,40 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
                   />
                 </label>
 
-                <label>
-                  Qual foi a sua escolha?
-                  <select
-                    required
-                    value={form.product}
-                    onChange={(event) => setForm((current) => ({ ...current, product: event.target.value }))}
+                <div className="feedback-product-field" ref={productMenuRef}>
+                  <span id="feedback-product-label">Qual foi a sua escolha?</span>
+                  <button
+                    className="feedback-product-trigger"
+                    type="button"
+                    aria-labelledby="feedback-product-label feedback-product-value"
+                    aria-haspopup="listbox"
+                    aria-expanded={isProductOpen}
+                    onClick={() => setIsProductOpen((current) => !current)}
                   >
-                    <option value="">Selecione um produto</option>
-                    {products.map((product) => <option key={product}>{product}</option>)}
-                    <option>Outro pedido personalizado</option>
-                  </select>
-                </label>
+                    <span id="feedback-product-value">{form.product || "Selecione um produto"}</span>
+                    <ChevronDown aria-hidden="true" size={18} />
+                  </button>
+                  {isProductOpen && (
+                    <div className="feedback-product-menu" role="listbox" aria-labelledby="feedback-product-label">
+                      {[...products, "Outro pedido personalizado"].map((product) => (
+                        <button
+                          key={product}
+                          type="button"
+                          role="option"
+                          aria-selected={form.product === product}
+                          className={form.product === product ? "is-selected" : ""}
+                          onClick={() => {
+                            setForm((current) => ({ ...current, product }));
+                            setIsProductOpen(false);
+                          }}
+                        >
+                          <span>{product}</span>
+                          {form.product === product && <Check aria-hidden="true" size={16} />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 <fieldset className="rating-field">
                   <legend>Como você avalia sua experiência?</legend>
@@ -233,7 +260,7 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
 
                 {form.rating === 0 && <p className="feedback-form-hint">Selecione de 1 a 5 estrelas para enviar.</p>}
                 {status === "error" && <p className="feedback-error" role="alert">Não foi possível enviar agora. Tente novamente em instantes.</p>}
-                <button className="button primary full" type="submit" disabled={status === "sending" || form.rating === 0}>
+                <button className="button primary full" type="submit" disabled={status === "sending" || form.rating === 0 || !form.product}>
                   {status === "sending" ? "Enviando..." : "Enviar meu carinho"}
                 </button>
               </form>
@@ -281,28 +308,12 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
           </section>
         )}
 
-        <section className="feedback-qr-section">
-          <div className="feedback-qr-copy">
-            <QrCode aria-hidden="true" size={26} />
-            <p className="eyebrow">Compartilhe o carinho</p>
-            <h2>Um convite delicado em cada pedido.</h2>
-            <p>Use este QR Code nos cartões, etiquetas e embalagens para levar cada cliente diretamente ao formulário.</p>
-            <a className="button secondary" href={qrImageUrl} target="_blank" rel="noopener noreferrer">Abrir QR Code</a>
-          </div>
-          <div className="feedback-qr-card">
-            <img src={qrImageUrl} alt={`QR Code para ${feedbackUrl}`} />
-            <strong>Conte como foi sua experiência</strong>
-            <span>Escaneie e deixe seu carinho.</span>
-          </div>
-        </section>
       </main>
 
       <footer className="feedback-footer">
         <strong>Villa <em>Dolce</em> Ateliê</strong>
         <span>Vera Cruz e Salvador, BA</span>
       </footer>
-
-      {isFeedbackDemoMode && <div className="feedback-demo-notice">Modo de demonstração: os envios ficam salvos somente neste navegador.</div>}
 
       {selectedFeedback && (
         <div className="feedback-modal" role="dialog" aria-modal="true" aria-label="Arte do feedback">
