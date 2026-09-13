@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Check, ChevronDown, Download, Heart, MessageCircleHeart, Share2, Star, X } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, Heart, MessageCircleHeart, Star } from "lucide-react";
 import { catalogItems } from "@/data/catalog";
-import { downloadFeedbackStory } from "@/lib/feedbackArtwork";
 import {
   createFeedback,
   getApprovedFeedbacks,
@@ -25,10 +24,8 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
   const [activeView, setActiveView] = useState<"form" | "wall">("form");
   const [form, setForm] = useState(emptyForm);
   const [feedbacks, setFeedbacks] = useState<FeedbackEntry[]>([]);
-  const [selectedFeedback, setSelectedFeedback] = useState<FeedbackEntry | null>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [loadError, setLoadError] = useState(false);
-  const [shareNotice, setShareNotice] = useState("");
   const [isProductOpen, setIsProductOpen] = useState(false);
   const productMenuRef = useRef<HTMLDivElement>(null);
 
@@ -36,8 +33,6 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
     () => [...new Set(catalogItems.map((item) => item.title))].sort((a, b) => a.localeCompare(b, "pt-BR")),
     [],
   );
-  const feedbackUrl = typeof window === "undefined" ? "" : `${window.location.origin}/feedbacks`;
-
   async function loadFeedbacks() {
     try {
       setLoadError(false);
@@ -79,20 +74,6 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
       setStatus("success");
     } catch {
       setStatus("error");
-    }
-  }
-
-  async function shareFeedback(feedback: FeedbackEntry) {
-    const text = `“${feedback.message}” — ${feedback.name}, sobre ${feedback.product}.`;
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: "Mural de Carinho | Villa Dolce", text, url: feedbackUrl });
-      } else {
-        await navigator.clipboard.writeText(`${text}\n${feedbackUrl}`);
-        setShareNotice("Texto copiado para compartilhar.");
-      }
-    } catch (error) {
-      if ((error as DOMException).name !== "AbortError") setShareNotice("Não foi possível compartilhar agora.");
     }
   }
 
@@ -298,9 +279,6 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
                     </div>
                     <div className="feedback-stars" aria-label={`${feedback.rating} de 5 estrelas`}>{"★".repeat(feedback.rating)}</div>
                     <blockquote>“{feedback.message}”</blockquote>
-                    <div className="feedback-card-actions">
-                      <button type="button" onClick={() => setSelectedFeedback(feedback)}><Share2 aria-hidden="true" size={16} /> Criar arte</button>
-                    </div>
                   </article>
                 ))}
               </div>
@@ -315,34 +293,6 @@ export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
         <span>Vera Cruz e Salvador, BA</span>
       </footer>
 
-      {selectedFeedback && (
-        <div className="feedback-modal" role="dialog" aria-modal="true" aria-label="Arte do feedback">
-          <button className="feedback-modal-backdrop" type="button" aria-label="Fechar prévia" onClick={() => setSelectedFeedback(null)} />
-          <div className="feedback-modal-panel">
-            <div className="feedback-modal-header">
-              <div><p className="eyebrow">Pronto para postar</p><h2>Arte para Story</h2></div>
-              <button className="feedback-modal-close" type="button" aria-label="Fechar" onClick={() => setSelectedFeedback(null)}><X size={20} /></button>
-            </div>
-            <div className="feedback-story-preview">
-              <img src="/assets/logo-villa-dolce.jpeg" alt="" />
-              <small>Mural de Carinho</small>
-              <h3>Feedback que amamos</h3>
-              <div>
-                <span>{"★".repeat(selectedFeedback.rating)}</span>
-                <blockquote>“{selectedFeedback.message}”</blockquote>
-                <strong>{selectedFeedback.name}</strong>
-                <small>{selectedFeedback.product}</small>
-              </div>
-              <footer><strong>Villa Dolce Ateliê</strong><span>@villadolceatelie</span></footer>
-            </div>
-            {shareNotice && <p className="feedback-share-notice" role="status">{shareNotice}</p>}
-            <div className="feedback-modal-actions">
-              <button className="button primary" type="button" onClick={() => void downloadFeedbackStory(selectedFeedback)}><Download size={17} /> Baixar PNG</button>
-              <button className="button secondary" type="button" onClick={() => void shareFeedback(selectedFeedback)}><Share2 size={17} /> Compartilhar</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

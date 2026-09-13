@@ -1,6 +1,7 @@
 import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/Footer";
 import { FeedbackPage } from "@/components/FeedbackPage";
+import { FeedbackAdminPage } from "@/components/FeedbackAdminPage";
 import { Header } from "@/components/Header";
 import { Reveal } from "@/components/Reveal";
 import { catalogItems, type CatalogGroup } from "@/data/catalog";
@@ -9,9 +10,9 @@ import { whatsappUrl } from "@/lib/utils";
 const defaultMessage =
   "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de informações sobre uma encomenda personalizada.";
 
-type Route = "/" | "/catalogo" | "/sobre" | "/contato" | "/feedbacks";
+type Route = "/" | "/catalogo" | "/sobre" | "/contato" | "/feedbacks" | "/admin/feedbacks";
 
-const routes: Route[] = ["/", "/catalogo", "/sobre", "/contato", "/feedbacks"];
+const routes: Route[] = ["/", "/catalogo", "/sobre", "/contato", "/feedbacks", "/admin/feedbacks"];
 
 function getRouteFromLocation(): Route {
   const path = window.location.pathname.replace(/\/$/, "") || "/";
@@ -19,6 +20,7 @@ function getRouteFromLocation(): Route {
   if (path.endsWith("/catalogo.html") || path.endsWith("/catalogo")) return "/catalogo";
   if (path.endsWith("/sobre.html") || path.endsWith("/sobre")) return "/sobre";
   if (path.endsWith("/contato.html") || path.endsWith("/contato")) return "/contato";
+  if (path.endsWith("/admin/feedbacks")) return "/admin/feedbacks";
   if (path.endsWith("/feedbacks")) return "/feedbacks";
   if (routes.includes(path as Route)) return path as Route;
 
@@ -66,6 +68,10 @@ export function App() {
     return <FeedbackPage onNavigate={navigate} />;
   }
 
+  if (currentPath === "/admin/feedbacks") {
+    return <FeedbackAdminPage onNavigate={navigate} />;
+  }
+
   return (
     <>
       <Header currentPath={currentPath} onNavigate={navigate} />
@@ -86,6 +92,7 @@ const pageTitles: Record<Route, string> = {
   "/sobre": "Sobre | Villa Dolce Ateliê",
   "/contato": "Contato | Villa Dolce Ateliê",
   "/feedbacks": "Mural de Carinho | Villa Dolce Ateliê",
+  "/admin/feedbacks": "Administração de Feedbacks | Villa Dolce Ateliê",
 };
 
 function HomePage({ onNavigate }: { onNavigate: (path: string) => void }) {

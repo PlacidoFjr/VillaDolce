@@ -1703,7 +1703,7 @@ h3 {
 .feedback-card {
   display: flex;
   flex-direction: column;
-  min-height: 330px;
+  min-height: 280px;
   padding: 26px;
   border: 1px solid rgba(184, 138, 67, 0.2);
   border-radius: var(--radius);
@@ -2113,5 +2113,415 @@ h3 {
   .feedback-story-preview {
     width: min(100%, 300px);
     align-self: center;
+  }
+}
+
+/* Administração do mural */
+.admin-page {
+  min-height: 100vh;
+}
+
+.admin-centered {
+  display: grid;
+  min-height: calc(100vh - 86px);
+  place-items: center;
+}
+
+.admin-spinner {
+  color: var(--gold);
+  animation: admin-spin 900ms linear infinite;
+}
+
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-login-shell,
+.admin-dashboard {
+  width: min(1080px, calc(100% - 36px));
+  margin: 0 auto;
+}
+
+.admin-login-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.72fr);
+  gap: clamp(54px, 9vw, 110px);
+  align-items: center;
+  min-height: calc(100vh - 86px);
+  padding: 64px 0;
+}
+
+.admin-login-copy h1,
+.admin-heading h1 {
+  font-size: clamp(3rem, 6vw, 5rem);
+}
+
+.admin-login-copy > p:not(.eyebrow),
+.admin-heading > div > p:not(.eyebrow) {
+  max-width: 570px;
+  margin: 20px 0 0;
+  color: rgba(32, 18, 12, 0.68);
+}
+
+.admin-login-form {
+  display: grid;
+  gap: 20px;
+  padding: clamp(28px, 4vw, 42px);
+  border: 1px solid rgba(184, 138, 67, 0.26);
+  border-radius: var(--radius);
+  background: var(--ivory);
+  box-shadow: 0 24px 64px rgba(59, 33, 20, 0.09);
+}
+
+.admin-login-icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid rgba(184, 138, 67, 0.34);
+  border-radius: 50%;
+  color: var(--gold);
+}
+
+.admin-login-form h2,
+.admin-empty h2 {
+  font-size: 2rem;
+}
+
+.admin-login-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--chocolate);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-login-form input {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 1px solid rgba(184, 138, 67, 0.3);
+  border-radius: 6px;
+  color: var(--espresso);
+  background: var(--white);
+  font: inherit;
+  letter-spacing: 0;
+  outline: none;
+  text-transform: none;
+}
+
+.admin-login-form input:focus {
+  border-color: rgba(184, 138, 67, 0.76);
+  box-shadow: 0 0 0 4px rgba(184, 138, 67, 0.12);
+}
+
+.admin-login-form .button:disabled,
+.admin-feedback-actions .button:disabled,
+.admin-summary button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.admin-dashboard {
+  padding: clamp(54px, 8vw, 94px) 0 100px;
+}
+
+.admin-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(184, 138, 67, 0.22);
+}
+
+.admin-heading .button,
+.admin-feedback-actions .button {
+  gap: 8px;
+}
+
+.admin-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) 46px;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.admin-summary > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 70px;
+  padding: 16px 20px;
+  border: 1px solid rgba(184, 138, 67, 0.22);
+  border-radius: var(--radius);
+  color: rgba(32, 18, 12, 0.68);
+  background: rgba(255, 250, 243, 0.72);
+}
+
+.admin-summary > div svg {
+  color: var(--gold);
+}
+
+.admin-summary > div strong {
+  margin-right: 4px;
+  color: var(--chocolate);
+  font-size: 1.2rem;
+}
+
+.admin-summary > button {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  align-self: center;
+  padding: 0;
+  border: 1px solid rgba(184, 138, 67, 0.3);
+  border-radius: 50%;
+  place-items: center;
+  color: var(--chocolate);
+  background: var(--ivory);
+  cursor: pointer;
+}
+
+.admin-filter {
+  display: inline-flex;
+  gap: 4px;
+  margin: 32px 0 24px;
+  padding: 5px;
+  border: 1px solid rgba(184, 138, 67, 0.22);
+  border-radius: var(--radius);
+  background: rgba(255, 250, 243, 0.72);
+}
+
+.admin-filter button {
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 4px;
+  color: rgba(32, 18, 12, 0.66);
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-filter button.is-active {
+  color: var(--ivory);
+  background: var(--chocolate);
+}
+
+.admin-error {
+  margin: 0;
+  color: #8f2f2f;
+  font-size: 0.8rem;
+}
+
+.admin-error-banner {
+  margin-bottom: 22px;
+  padding: 13px 15px;
+  border: 1px solid rgba(143, 47, 47, 0.2);
+  border-radius: 6px;
+  background: rgba(143, 47, 47, 0.06);
+}
+
+.admin-feedback-list {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-feedback-card {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.65fr) minmax(280px, 1.35fr);
+  gap: 18px 32px;
+  padding: 24px;
+  border: 1px solid rgba(184, 138, 67, 0.22);
+  border-radius: var(--radius);
+  background: rgba(255, 250, 243, 0.78);
+  box-shadow: 0 14px 38px rgba(59, 33, 20, 0.05);
+}
+
+.admin-feedback-meta {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(184, 138, 67, 0.16);
+}
+
+.admin-feedback-meta > span {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.admin-feedback-meta > span.is-pending {
+  color: #785415;
+  background: #f6e7c7;
+}
+
+.admin-feedback-meta > span.is-published {
+  color: #4e6142;
+  background: #e3eadc;
+}
+
+.admin-feedback-meta time {
+  color: rgba(32, 18, 12, 0.48);
+  font-size: 0.72rem;
+}
+
+.admin-feedback-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-feedback-person strong,
+.admin-feedback-person small {
+  display: block;
+}
+
+.admin-feedback-person small {
+  color: rgba(32, 18, 12, 0.55);
+  font-size: 0.74rem;
+}
+
+.admin-feedback-card .feedback-stars {
+  grid-column: 1;
+  margin-top: 0;
+}
+
+.admin-feedback-card blockquote {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+  margin: 0;
+  color: rgba(32, 18, 12, 0.78);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.35rem;
+  line-height: 1.42;
+}
+
+.admin-feedback-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(184, 138, 67, 0.16);
+}
+
+.admin-empty {
+  display: grid;
+  min-height: 280px;
+  padding: 44px 24px;
+  border: 1px solid rgba(184, 138, 67, 0.2);
+  border-radius: var(--radius);
+  place-items: center;
+  align-content: center;
+  color: rgba(32, 18, 12, 0.58);
+  background: rgba(255, 250, 243, 0.68);
+  text-align: center;
+}
+
+.admin-empty svg:not(.admin-spinner) {
+  margin-bottom: 14px;
+  color: var(--sage);
+}
+
+.admin-empty p {
+  margin: 8px 0 0;
+}
+
+.admin-filter button:focus-visible,
+.admin-summary button:focus-visible,
+.admin-login-form input:focus-visible {
+  outline: 3px solid rgba(184, 138, 67, 0.28);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .admin-login-shell {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    min-height: 0;
+  }
+
+  .admin-heading {
+    display: grid;
+  }
+
+  .admin-heading .button {
+    justify-self: start;
+  }
+
+  .admin-feedback-card {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-feedback-card blockquote,
+  .admin-feedback-card .feedback-stars,
+  .admin-feedback-actions {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .admin-login-shell,
+  .admin-dashboard {
+    width: calc(100% - 28px);
+  }
+
+  .admin-login-copy h1,
+  .admin-heading h1 {
+    font-size: 2.8rem;
+  }
+
+  .admin-summary {
+    grid-template-columns: 1fr 46px;
+  }
+
+  .admin-summary > div:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .admin-filter {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .admin-filter button {
+    padding-inline: 8px;
+  }
+
+  .admin-feedback-card {
+    padding: 20px 18px;
+  }
+
+  .admin-feedback-meta {
+    align-items: flex-start;
+  }
+
+  .admin-feedback-meta time {
+    text-align: right;
+  }
+
+  .admin-feedback-actions {
+    display: grid;
+  }
+
+  .admin-feedback-actions .button {
+    width: 100%;
   }
 }

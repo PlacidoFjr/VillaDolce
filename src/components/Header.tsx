@@ -7,6 +7,7 @@ const navItems = [
   { label: "Catálogo", path: "/catalogo" },
   { label: "Sobre", path: "/sobre" },
   { label: "Contato", path: "/contato" },
+  { label: "Feedbacks", path: "/feedbacks" },
 ];
 
 type HeaderProps = {

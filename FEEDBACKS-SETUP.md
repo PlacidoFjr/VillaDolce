@@ -12,4 +12,19 @@ A rota pública do mural é `/feedbacks`. Ela funciona em modo de demonstração
 
 Os novos feedbacks entram com `approved = false`. Para publicar um depoimento, abra a tabela `feedbacks` no Table Editor do Supabase, revise o conteúdo e altere `approved` para `true`.
 
+## Ativar o painel administrativo
+
+1. No SQL Editor do Supabase, execute `supabase/feedback-admin.sql`.
+2. Acesse **Authentication > Users** e crie o usuário administrador com e-mail e senha.
+3. Copie o **User UID** desse usuário.
+4. Execute no SQL Editor, trocando o valor pelo UID copiado:
+
+```sql
+insert into public.feedback_admins (user_id)
+values ('COLE-O-USER-UID-AQUI')
+on conflict (user_id) do nothing;
+```
+
+Depois disso, acesse `/admin/feedbacks`. O painel permite aprovar ou retirar depoimentos do mural e baixar a arte de cada feedback em PNG para o Instagram. A sessão é encerrada ao fechar a aba do navegador.
+
 O QR Code usado nas embalagens deve apontar para `https://SEU-DOMINIO/feedbacks`. Ele não é exibido dentro da página, pois será aplicado diretamente nos materiais da Villa Dolce.
