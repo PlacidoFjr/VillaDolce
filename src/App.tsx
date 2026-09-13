@@ -1,5 +1,6 @@
 import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/Footer";
+import { FeedbackPage } from "@/components/FeedbackPage";
 import { Header } from "@/components/Header";
 import { Reveal } from "@/components/Reveal";
 import { catalogItems, type CatalogGroup } from "@/data/catalog";
@@ -8,9 +9,9 @@ import { whatsappUrl } from "@/lib/utils";
 const defaultMessage =
   "Olá, vim pelo site da Villa Dolce Ateliê e gostaria de informações sobre uma encomenda personalizada.";
 
-type Route = "/" | "/catalogo" | "/sobre" | "/contato";
+type Route = "/" | "/catalogo" | "/sobre" | "/contato" | "/feedbacks";
 
-const routes: Route[] = ["/", "/catalogo", "/sobre", "/contato"];
+const routes: Route[] = ["/", "/catalogo", "/sobre", "/contato", "/feedbacks"];
 
 function getRouteFromLocation(): Route {
   const path = window.location.pathname.replace(/\/$/, "") || "/";
@@ -18,6 +19,7 @@ function getRouteFromLocation(): Route {
   if (path.endsWith("/catalogo.html") || path.endsWith("/catalogo")) return "/catalogo";
   if (path.endsWith("/sobre.html") || path.endsWith("/sobre")) return "/sobre";
   if (path.endsWith("/contato.html") || path.endsWith("/contato")) return "/contato";
+  if (path.endsWith("/feedbacks")) return "/feedbacks";
   if (routes.includes(path as Route)) return path as Route;
 
   return "/";
@@ -60,6 +62,10 @@ export function App() {
     }
   }
 
+  if (currentPath === "/feedbacks") {
+    return <FeedbackPage onNavigate={navigate} />;
+  }
+
   return (
     <>
       <Header currentPath={currentPath} onNavigate={navigate} />
@@ -79,6 +85,7 @@ const pageTitles: Record<Route, string> = {
   "/catalogo": "Catálogo | Villa Dolce Ateliê",
   "/sobre": "Sobre | Villa Dolce Ateliê",
   "/contato": "Contato | Villa Dolce Ateliê",
+  "/feedbacks": "Mural de Carinho | Villa Dolce Ateliê",
 };
 
 function HomePage({ onNavigate }: { onNavigate: (path: string) => void }) {
