@@ -1,5 +1,6 @@
 import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/Footer";
+import { ChatAssistant } from "@/components/ChatAssistant";
 import { FeedbackPage } from "@/components/FeedbackPage";
 import { FeedbackAdminPage } from "@/components/FeedbackAdminPage";
 import { Header } from "@/components/Header";
@@ -65,7 +66,12 @@ export function App() {
   }
 
   if (currentPath === "/feedbacks") {
-    return <FeedbackPage onNavigate={navigate} />;
+    return (
+      <>
+        <FeedbackPage onNavigate={navigate} />
+        <ChatAssistant onNavigate={navigate} />
+      </>
+    );
   }
 
   if (currentPath === "/admin/feedbacks") {
@@ -82,6 +88,7 @@ export function App() {
         {currentPath === "/contato" && <ContactPage />}
       </main>
       <Footer />
+      <ChatAssistant onNavigate={navigate} />
     </>
   );
 }
