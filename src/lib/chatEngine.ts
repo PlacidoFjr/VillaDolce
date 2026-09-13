@@ -46,7 +46,7 @@ const standardFooterActions: ChatAction[] = [
 
 export function initialChatContent(): ChatContent {
   return {
-    text: "Olá! Seja bem-vinda à Villa Dolce Ateliê. Posso ajudar você a conhecer nossas delícias, escolher um presente ou iniciar uma encomenda.",
+    text: "Olá! Que bom ter você na Villa Dolce Ateliê. Posso ajudar você a conhecer nossas delícias, escolher um presente ou iniciar uma encomenda.",
     actions: mainActions,
   };
 }
