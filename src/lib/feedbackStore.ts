@@ -11,11 +11,16 @@ export type NewFeedback = Omit<FeedbackEntry, "id" | "created_at"> & {
   consent: boolean;
 };
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, "");
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const configuredSupabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim().replace(/\/+$/, "");
+const supabaseRestUrl = configuredSupabaseUrl
+  ? configuredSupabaseUrl.endsWith("/rest/v1")
+    ? configuredSupabaseUrl
+    : `${configuredSupabaseUrl}/rest/v1`
+  : undefined;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim();
 const localStorageKey = "villa-dolce-feedbacks";
 
-export const isFeedbackDemoMode = !supabaseUrl || !supabaseKey;
+export const isFeedbackDemoMode = !supabaseRestUrl || !supabaseKey;
 
 function requestHeaders(includeJson = false): HeadersInit {
   const headers: HeadersInit = {
@@ -45,7 +50,7 @@ export async function getApprovedFeedbacks(): Promise<FeedbackEntry[]> {
   }
 
   const response = await fetch(
-    `${supabaseUrl}/rest/v1/feedbacks?select=id,name,rating,product,message,created_at&approved=eq.true&order=created_at.desc`,
+    `${supabaseRestUrl}/feedbacks?select=id,name,rating,product,message,created_at&approved=eq.true&order=created_at.desc`,
     { headers: requestHeaders() },
   );
 
@@ -71,7 +76,7 @@ export async function createFeedback(feedback: NewFeedback): Promise<FeedbackEnt
     return entry;
   }
 
-  const response = await fetch(`${supabaseUrl}/rest/v1/feedbacks`, {
+  const response = await fetch(`${supabaseRestUrl}/feedbacks`, {
     method: "POST",
     headers: {
       ...requestHeaders(true),

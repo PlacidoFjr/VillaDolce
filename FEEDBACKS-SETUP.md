@@ -7,7 +7,7 @@ A rota pública do mural é `/feedbacks`. Ela funciona em modo de demonstração
 1. Crie um projeto no Supabase.
 2. Abra o SQL Editor e execute o conteúdo de `supabase/feedbacks.sql`.
 3. Copie `.env.example` para `.env.local` durante o desenvolvimento.
-4. Preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com os dados públicos do projeto.
+4. Preencha `VITE_SUPABASE_URL` com a URL pública do projeto (por exemplo, `https://SEU-PROJETO.supabase.co`) e `VITE_SUPABASE_ANON_KEY` com a chave pública/publishable. O site também aceita a Data API URL terminada em `/rest/v1`.
 5. Cadastre essas mesmas variáveis no projeto da Vercel e faça um novo deploy.
 
 Os novos feedbacks entram com `approved = false`. Para publicar um depoimento, abra a tabela `feedbacks` no Table Editor do Supabase, revise o conteúdo e altere `approved` para `true`.
