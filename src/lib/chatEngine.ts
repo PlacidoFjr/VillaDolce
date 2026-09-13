@@ -21,9 +21,27 @@ export type ChatContent = {
 };
 
 export type ChatSession = {
-  awaiting?: "product" | "occasion" | "style";
+  awaiting?:
+    | "product"
+    | "occasion"
+    | "style"
+    | "order-product"
+    | "order-occasion"
+    | "order-date"
+    | "order-location"
+    | "order-notes"
+    | "order-confirm";
   occasion?: string;
   occasionLabel?: string;
+  orderDraft?: OrderDraft;
+};
+
+type OrderDraft = {
+  product?: string;
+  occasion?: string;
+  date?: string;
+  location?: string;
+  notes?: string;
 };
 
 export type ChatAnswer = {
@@ -61,6 +79,12 @@ export function answerChatAction(value: string, session: ChatSession): ChatAnswe
     );
   }
   if (value === "order") return orderAnswer(session);
+  if (value === "order:start") return startOrderFlow();
+  if (value === "order:skip-product") return collectOrderDetail("A definir", session);
+  if (value === "order:skip-occasion") return collectOrderDetail("Sem ocasião específica", session);
+  if (value === "order:skip-date") return collectOrderDetail("A combinar", session);
+  if (value === "order:skip-location") return collectOrderDetail("A combinar", session);
+  if (value === "order:skip-notes") return collectOrderDetail("Sem observações", session);
   if (value === "service") return serviceAnswer(session);
   if (value === "feedback") return feedbackAnswer(session);
   if (value.startsWith("category:")) {
@@ -85,6 +109,8 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
   if (hasAny(query, ["inicio", "menu", "comecar", "recomecar", "voltar"])) {
     return { content: initialChatContent(), session: {} };
   }
+
+  if (isOrderStep(session.awaiting)) return collectOrderDetail(input.trim(), session);
 
   if (hasAny(query, ["reclamacao", "reclamar", "problema", "errado", "faltou", "atrasou", "estragado", "danificado", "insatisfeito", "insatisfeita", "nao gostei"])) {
     return answer(
@@ -399,23 +425,100 @@ function productSearchAnswer(products: CatalogItem[], session: ChatSession): Cha
 
 function orderAnswer(session: ChatSession): ChatAnswer {
   return answer(
-    "As criações Villa Dolce são preparadas sob encomenda. Para solicitar um orçamento, informe a ocasião, produto ou estilo desejado, quantidade, data, preferências e local de entrega ou retirada.",
+    "As criações Villa Dolce são preparadas sob encomenda. Posso organizar as informações do seu pedido aqui e deixar uma mensagem pronta para você continuar no WhatsApp.",
     session,
     [
-      { label: "Escolher um produto", type: "reply", value: "catalog:start" },
-      { label: "Iniciar pedido", type: "whatsapp", value: defaultWhatsappMessage() },
-      { label: "Voltar ao início", type: "reset", value: "reset" },
+      { label: "Preparar mensagem", type: "reply", value: "order:start" },
+      { label: "Ir direto ao WhatsApp", type: "whatsapp", value: defaultWhatsappMessage() },
     ],
   );
 }
 
 function humanServiceAnswer(session: ChatSession): ChatAnswer {
   return answer(
-    "Claro. Você pode continuar diretamente com o atendimento da Villa Dolce pelo WhatsApp.",
+    "Claro. Posso preparar uma mensagem com os detalhes do que você procura antes de abrir o WhatsApp, ou levar você diretamente ao atendimento.",
     session,
     [
-      { label: "Abrir WhatsApp", type: "whatsapp", value: defaultWhatsappMessage() },
-      { label: "Voltar ao início", type: "reset", value: "reset" },
+      { label: "Preparar mensagem", type: "reply", value: "order:start" },
+      { label: "Ir direto ao WhatsApp", type: "whatsapp", value: defaultWhatsappMessage() },
+    ],
+  );
+}
+
+function startOrderFlow(): ChatAnswer {
+  return answer(
+    "Vamos preparar sua mensagem. Qual produto ou tipo de presente você procura?",
+    { awaiting: "order-product", orderDraft: {} },
+    [
+      { label: "Ainda não sei", type: "reply", value: "order:skip-product" },
+      { label: "Ir direto ao WhatsApp", type: "whatsapp", value: defaultWhatsappMessage() },
+    ],
+  );
+}
+
+function collectOrderDetail(value: string, session: ChatSession): ChatAnswer {
+  const draft = { ...session.orderDraft };
+
+  if (session.awaiting === "order-product") {
+    draft.product = value;
+    return answer(
+      "Para qual ocasião é a encomenda?",
+      { awaiting: "order-occasion", orderDraft: draft },
+      [{ label: "Sem ocasião específica", type: "reply", value: "order:skip-occasion" }],
+    );
+  }
+
+  if (session.awaiting === "order-occasion") {
+    draft.occasion = value;
+    return answer(
+      "Qual é a data desejada?",
+      { awaiting: "order-date", orderDraft: draft },
+      [{ label: "Ainda não sei a data", type: "reply", value: "order:skip-date" }],
+    );
+  }
+
+  if (session.awaiting === "order-date") {
+    draft.date = value;
+    return answer(
+      "Em qual cidade será a entrega ou retirada?",
+      { awaiting: "order-location", orderDraft: draft },
+      [{ label: "Combinar depois", type: "reply", value: "order:skip-location" }],
+    );
+  }
+
+  if (session.awaiting === "order-location") {
+    draft.location = value;
+    return answer(
+      "Quer acrescentar quantidade, sabores, cores, restrições ou alguma preferência?",
+      { awaiting: "order-notes", orderDraft: draft },
+      [{ label: "Sem observações", type: "reply", value: "order:skip-notes" }],
+    );
+  }
+
+  if (session.awaiting === "order-notes") {
+    draft.notes = value;
+    return orderSummary(draft);
+  }
+
+  return orderSummary(draft);
+}
+
+function orderSummary(draft: OrderDraft): ChatAnswer {
+  const text = [
+    "Sua mensagem está pronta:",
+    `Produto: ${draft.product ?? "A definir"}`,
+    `Ocasião: ${draft.occasion ?? "Sem ocasião específica"}`,
+    `Data: ${draft.date ?? "A combinar"}`,
+    `Local: ${draft.location ?? "A combinar"}`,
+    `Observações: ${draft.notes ?? "Sem observações"}`,
+  ].join("\n");
+
+  return answer(
+    text,
+    { awaiting: "order-confirm", orderDraft: draft },
+    [
+      { label: "Abrir WhatsApp", type: "whatsapp", value: orderWhatsappMessage(draft) },
+      { label: "Refazer", type: "reply", value: "order:start" },
     ],
   );
 }
@@ -510,4 +613,20 @@ function answer(text: string, session: ChatSession, actions?: ChatAction[]): Cha
 
 function defaultWhatsappMessage(subject?: string) {
   return `Olá! Vim pelo assistente do site da Villa Dolce${subject ? ` e gostaria de informações sobre ${subject}` : " e gostaria de informações sobre uma encomenda personalizada"}.`;
+}
+
+function orderWhatsappMessage(draft: OrderDraft) {
+  return [
+    "Olá! Vim pelo assistente do site da Villa Dolce e gostaria de consultar uma encomenda.",
+    "",
+    `Produto: ${draft.product ?? "A definir"}`,
+    `Ocasião: ${draft.occasion ?? "Sem ocasião específica"}`,
+    `Data desejada: ${draft.date ?? "A combinar"}`,
+    `Entrega ou retirada: ${draft.location ?? "A combinar"}`,
+    `Observações: ${draft.notes ?? "Sem observações"}`,
+  ].join("\n");
+}
+
+function isOrderStep(awaiting: ChatSession["awaiting"]) {
+  return awaiting?.startsWith("order-") ?? false;
 }

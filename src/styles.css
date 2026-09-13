@@ -2788,6 +2788,7 @@ h3 {
   box-shadow: 0 6px 18px rgba(59, 33, 20, 0.05);
   font-size: 0.88rem;
   line-height: 1.55;
+  white-space: pre-line;
 }
 
 .chat-message.user .chat-bubble {

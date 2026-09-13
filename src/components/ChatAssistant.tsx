@@ -38,7 +38,7 @@ type StoredChat = {
   session: ChatSession;
 };
 
-const storageKey = "villa-dolce-chat-v2";
+const storageKey = "villa-dolce-chat-v3";
 
 function createMessage(role: ChatMessage["role"], content: ChatContent): ChatMessage {
   return {
@@ -76,7 +76,8 @@ function ActionIcon({ action }: { action: ChatAction }) {
   if (action.value.startsWith("gift") || action.value.startsWith("occasion")) return <Gift size={15} aria-hidden="true" />;
   if (action.value.startsWith("style")) return null;
   if (action.value.startsWith("search")) return <Search size={15} aria-hidden="true" />;
-  if (action.value === "order") return <ShoppingBag size={15} aria-hidden="true" />;
+  if (action.value === "order" || action.value === "order:start") return <ShoppingBag size={15} aria-hidden="true" />;
+  if (action.value.startsWith("order:skip")) return null;
   if (action.value === "service") return <Clock3 size={15} aria-hidden="true" />;
   if (action.value === "feedback") return <Heart size={15} aria-hidden="true" />;
   return <ChevronRight size={15} aria-hidden="true" />;
