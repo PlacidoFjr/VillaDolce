@@ -39,7 +39,7 @@ type StoredChat = {
   session: ChatSession;
 };
 
-const storageKey = "villa-dolce-chat-v1";
+const storageKey = "villa-dolce-chat-v2";
 
 function createMessage(role: ChatMessage["role"], content: ChatContent): ChatMessage {
   return {
@@ -225,11 +225,8 @@ export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                     <p>{product.description}</p>
                     <div>
                       <button type="button" onClick={() => openProduct(product.id)}>
-                        Ver no catálogo <ArrowUpRight size={14} aria-hidden="true" />
+                        Ver detalhes <ArrowUpRight size={14} aria-hidden="true" />
                       </button>
-                      <a href={whatsappUrl(product.message)} target="_blank" rel="noopener noreferrer">
-                        Consultar
-                      </a>
                     </div>
                   </div>
                 ))}
@@ -267,7 +264,7 @@ export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                 value={input}
                 maxLength={220}
                 aria-label="Escreva sua pergunta"
-                placeholder="Digite sua dúvida..."
+                placeholder="Escreva sua pergunta..."
                 onChange={(event) => setInput(event.target.value)}
               />
               {input.length > 0 && <small>{input.length}/220</small>}
@@ -275,7 +272,7 @@ export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             <button type="submit" disabled={!input.trim() || isResponding} title="Enviar mensagem" aria-label="Enviar mensagem">
               <Send size={18} />
             </button>
-            <p><Check size={13} aria-hidden="true" /> Respostas sobre catálogo, presentes e atendimento.</p>
+            <p><Check size={13} aria-hidden="true" /> Pode escrever normalmente. Ex.: “Tem pipoca?”</p>
           </form>
         </section>
       )}

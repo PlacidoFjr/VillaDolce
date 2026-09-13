@@ -31,12 +31,9 @@ export type ChatAnswer = {
 };
 
 const mainActions: ChatAction[] = [
-  { label: "Ver catálogo", type: "reply", value: "catalog:start" },
+  { label: "Explorar catálogo", type: "reply", value: "catalog:start" },
   { label: "Escolher um presente", type: "reply", value: "gift:start" },
-  { label: "Procurar produto", type: "reply", value: "search:start" },
   { label: "Como encomendar", type: "reply", value: "order" },
-  { label: "Atendimento", type: "reply", value: "service" },
-  { label: "Feedbacks", type: "reply", value: "feedback" },
 ];
 
 const standardFooterActions: ChatAction[] = [
@@ -46,14 +43,15 @@ const standardFooterActions: ChatAction[] = [
 
 export function initialChatContent(): ChatContent {
   return {
-    text: "Olá! Que bom ter você na Villa Dolce Ateliê. Posso ajudar você a conhecer nossas delícias, escolher um presente ou iniciar uma encomenda.",
+    text: "Olá! Que bom ter você na Villa Dolce Ateliê. Escolha uma opção abaixo ou escreva sua dúvida do seu jeito.",
     actions: mainActions,
   };
 }
 
 export function answerChatAction(value: string, session: ChatSession): ChatAnswer {
-  if (value === "catalog:start") return categoryMenu();
-  if (value === "gift:start") return occasionMenu();
+  if (value === "catalog:start") return categoryMenu(0);
+  if (value.startsWith("catalog:menu:")) return categoryMenu(Number(value.split(":")[2]) || 0);
+  if (value === "gift:start") return occasionMenu(0);
   if (value === "search:start") {
     return answer(
       "Digite o nome ou uma característica do produto que procura. Por exemplo: brownie, biscoito, presente com chocolate ou mini bolo.",
@@ -68,7 +66,12 @@ export function answerChatAction(value: string, session: ChatSession): ChatAnswe
     const [, group, offset] = value.split(":");
     return categoryResults(group as CatalogGroup, Number(offset) || 0);
   }
-  if (value.startsWith("occasion:")) return styleMenu(value.replace("occasion:", ""));
+  if (value.startsWith("occasion:menu:")) return occasionMenu(Number(value.split(":")[2]) || 0);
+  if (value.startsWith("occasion:")) return styleMenu(value.replace("occasion:", ""), 0);
+  if (value.startsWith("style:menu:")) {
+    const [, , occasionId, offset] = value.split(":");
+    return styleMenu(occasionId, Number(offset) || 0);
+  }
   if (value.startsWith("style:")) return giftResults(session.occasion, value.replace("style:", ""));
 
   return fallbackAnswer(session);
@@ -160,11 +163,11 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
 
   const occasion = chatOccasions.find((item) => item.terms.some((term) => includesTerm(query, term)));
   if (occasion && hasAny(query, ["presente", "quero", "preciso", "procurando", ...occasion.terms])) {
-    return styleMenu(occasion.id);
+    return styleMenu(occasion.id, 0);
   }
 
-  if (hasAny(query, ["catalogo", "categorias", "produtos", "cardapio", "opcoes"])) return categoryMenu();
-  if (hasAny(query, ["presente", "presentear", "sugestao", "recomenda", "indica", "ocasiao"])) return occasionMenu();
+  if (hasAny(query, ["catalogo", "categorias", "produtos", "cardapio", "opcoes"])) return categoryMenu(0);
+  if (hasAny(query, ["presente", "presentear", "sugestao", "recomenda", "indica", "ocasiao"])) return occasionMenu(0);
 
   if (session.awaiting === "product") return productSearchAnswer(directProducts, session);
 
@@ -179,11 +182,24 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
   return fallbackAnswer(session);
 }
 
-function categoryMenu(): ChatAnswer {
+function categoryMenu(offset: number): ChatAnswer {
+  const categories = chatCategories.slice(offset, offset + 3);
+  const actions: ChatAction[] = categories.map((category) => ({
+    label: category.label,
+    type: "reply",
+    value: `category:${category.id}:0`,
+  }));
+
+  if (offset + 3 < chatCategories.length) {
+    actions.push({ label: "Mais categorias", type: "reply", value: `catalog:menu:${offset + 3}` });
+  } else if (offset > 0) {
+    actions.push({ label: "Categorias anteriores", type: "reply", value: "catalog:menu:0" });
+  }
+
   return answer(
-    "Qual tipo de criação você deseja conhecer?",
+    "Qual tipo de criação você deseja conhecer? Você também pode digitar o nome de qualquer produto.",
     {},
-    chatCategories.map((category) => ({ label: category.label, type: "reply", value: `category:${category.id}:0` })),
+    actions,
   );
 }
 
@@ -207,20 +223,46 @@ function categoryResults(group: CatalogGroup, offset: number): ChatAnswer {
   };
 }
 
-function occasionMenu(): ChatAnswer {
+function occasionMenu(offset: number): ChatAnswer {
+  const occasions = chatOccasions.slice(offset, offset + 3);
+  const actions: ChatAction[] = occasions.map((occasion) => ({
+    label: occasion.label,
+    type: "reply",
+    value: `occasion:${occasion.id}`,
+  }));
+
+  if (offset + 3 < chatOccasions.length) {
+    actions.push({ label: "Mais ocasiões", type: "reply", value: `occasion:menu:${offset + 3}` });
+  } else if (offset > 0) {
+    actions.push({ label: "Ocasiões anteriores", type: "reply", value: "occasion:menu:0" });
+  }
+
   return answer(
-    "Para qual ocasião você procura um presente?",
+    "Para qual ocasião você procura um presente? Se preferir, escreva a ocasião no campo abaixo.",
     { awaiting: "occasion" },
-    chatOccasions.map((occasion) => ({ label: occasion.label, type: "reply", value: `occasion:${occasion.id}` })),
+    actions,
   );
 }
 
-function styleMenu(occasionId: string): ChatAnswer {
+function styleMenu(occasionId: string, offset: number): ChatAnswer {
   const occasion = chatOccasions.find((item) => item.id === occasionId);
+  const styles = chatStyles.slice(offset, offset + 3);
+  const actions: ChatAction[] = styles.map((style) => ({
+    label: style.label,
+    type: "reply",
+    value: `style:${style.id}`,
+  }));
+
+  if (offset + 3 < chatStyles.length) {
+    actions.push({ label: "Mais estilos", type: "reply", value: `style:menu:${occasionId}:${offset + 3}` });
+  } else if (offset > 0) {
+    actions.push({ label: "Estilos anteriores", type: "reply", value: `style:menu:${occasionId}:0` });
+  }
+
   return answer(
     `Ótimo${occasion ? `, para ${occasion.label.toLowerCase()}` : ""}. Qual estilo de presente combina melhor?`,
     { occasion: occasionId },
-    chatStyles.map((style) => ({ label: style.label, type: "reply", value: `style:${style.id}` })),
+    actions,
   );
 }
 
