@@ -12,7 +12,6 @@ import {
   Search,
   Send,
   ShoppingBag,
-  Sparkles,
   X,
 } from "lucide-react";
 import {
@@ -75,7 +74,7 @@ function ActionIcon({ action }: { action: ChatAction }) {
   if (action.type === "navigate") return <Heart size={15} aria-hidden="true" />;
   if (action.value.startsWith("catalog") || action.value.startsWith("category")) return <BookOpen size={15} aria-hidden="true" />;
   if (action.value.startsWith("gift") || action.value.startsWith("occasion")) return <Gift size={15} aria-hidden="true" />;
-  if (action.value.startsWith("style")) return <Sparkles size={15} aria-hidden="true" />;
+  if (action.value.startsWith("style")) return null;
   if (action.value.startsWith("search")) return <Search size={15} aria-hidden="true" />;
   if (action.value === "order") return <ShoppingBag size={15} aria-hidden="true" />;
   if (action.value === "service") return <Clock3 size={15} aria-hidden="true" />;

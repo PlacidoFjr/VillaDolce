@@ -16,22 +16,81 @@ export const chatCategories: Array<{ id: CatalogGroup; label: string; terms: str
 ];
 
 export const chatOccasions = [
-  { id: "aniversario", label: "Aniversário", terms: ["aniversario", "celebracao", "comemoracao"] },
-  { id: "agradecimento", label: "Agradecimento", terms: ["agradecimento", "agradecer", "carinho"] },
-  { id: "romantico", label: "Romântico", terms: ["romantico", "romantica", "namorado", "namorada", "amor"] },
-  { id: "corporativo", label: "Corporativo", terms: ["corporativo", "empresa", "equipe", "cliente"] },
-  { id: "lembrancinha", label: "Lembrancinha", terms: ["lembrancinha", "lembranca", "evento"] },
-  { id: "visita", label: "Visita especial", terms: ["visita", "cafe", "encontro"] },
-  { id: "carinho", label: "Apenas um carinho", terms: ["carinho", "apoio", "surpresa", "presente"] },
+  {
+    id: "aniversario",
+    label: "Aniversário",
+    terms: ["aniversario", "festa de aniversario", "parabens", "celebracao", "comemoracao"],
+    products: ["mini-bolo-presente", "mini-vulcao", "mini-cake-donuts", "cestas-afetivas"],
+  },
+  {
+    id: "agradecimento",
+    label: "Agradecimento",
+    terms: ["agradecimento", "agradecer", "obrigado pelo presente", "retribuir", "reconhecimento"],
+    products: ["cestas-afetivas", "caixas-presenteaveis", "biscoitos-amanteigados", "doces-finos"],
+  },
+  {
+    id: "romantico",
+    label: "Romance e Dia dos Namorados",
+    terms: ["romantico", "romantica", "namorado", "namorada", "namoro", "dia dos namorados", "amor", "paixao", "bodas", "noivado"],
+    products: ["mega-bombom", "trufas", "caixas-presenteaveis", "doces-finos"],
+  },
+  {
+    id: "familia",
+    label: "Família e afeto",
+    terms: ["dia das maes", "dia dos pais", "mae", "mamae", "pai", "papai", "avo", "avó", "familia", "irma", "irmao"],
+    products: ["cestas-afetivas", "mini-bolo-presente", "caixas-presenteaveis", "capsula-cappuccino"],
+  },
+  {
+    id: "casamento",
+    label: "Casamento e noivado",
+    terms: ["casamento", "casar", "noivado", "noivos", "madrinha", "padrinho", "cha de panela", "cha bar"],
+    products: ["doces-finos", "trufas", "caixas-presenteaveis", "cestas-afetivas"],
+  },
+  {
+    id: "nascimento",
+    label: "Nascimento e maternidade",
+    terms: ["nascimento", "nasceu", "bebe", "maternidade", "gestante", "gravida", "cha de bebe", "boas vindas"],
+    products: ["cestas-afetivas", "biscoitos-amanteigados", "caixas-presenteaveis", "doces-finos"],
+  },
+  {
+    id: "corporativo",
+    label: "Corporativo",
+    terms: ["corporativo", "empresa", "equipe", "funcionario", "colaborador", "cliente", "evento empresarial", "confraternizacao"],
+    products: ["caixas-presenteaveis", "biscoitos-amanteigados", "capsula-cappuccino", "brownie-bites"],
+  },
+  {
+    id: "lembrancinha",
+    label: "Lembrancinha e evento",
+    terms: ["lembrancinha", "lembranca", "evento", "festa", "quantidade", "convidados", "brinde"],
+    products: ["biscoitos-amanteigados", "mini-cake-donuts", "pipoca-gourmet", "trufas"],
+  },
+  {
+    id: "visita",
+    label: "Visita e café",
+    terms: ["visita", "cafe", "encontro", "receber em casa", "cafe da tarde", "reuniao"],
+    products: ["biscoitos-amanteigados", "sequilho-salgado", "capsula-cappuccino", "brownie-bites"],
+  },
+  {
+    id: "datas-especiais",
+    label: "Datas comemorativas",
+    terms: ["natal", "pascoa", "sao joao", "formatura", "professores", "dia do professor", "fim de ano", "data comemorativa"],
+    products: ["cestas-afetivas", "caixas-presenteaveis", "doces-finos", "biscoitos-amanteigados"],
+  },
+  {
+    id: "carinho",
+    label: "Apenas um carinho",
+    terms: ["carinho", "apoio", "surpresa", "presente", "melhoras", "saudade", "amizade", "amiga", "amigo"],
+    products: ["cestas-afetivas", "caixas-presenteaveis", "mini-bolo-presente", "trufas"],
+  },
 ] as const;
 
 export const chatStyles = [
-  { id: "cesta", label: "Cesta completa", products: ["cestas-afetivas", "caixas-presenteaveis"] },
-  { id: "caixa", label: "Caixa elegante", products: ["caixas-presenteaveis", "doces-finos", "trufas"] },
-  { id: "chocolate", label: "Com chocolates", products: ["trufas", "brownie-bites", "mega-bombom", "doces-finos", "capsula-cappuccino"] },
-  { id: "biscoito", label: "Com biscoitos", products: ["biscoitos-amanteigados", "sequilho-salgado", "pastelzinho-doce"] },
-  { id: "bolo", label: "Com bolo", products: ["mini-bolo-presente", "mini-vulcao", "mini-cake-donuts"] },
-  { id: "surpresa", label: "Ainda não sei", products: [] },
+  { id: "cesta", label: "Cesta completa", terms: ["cesta", "cesta completa", "variedade"], products: ["cestas-afetivas", "caixas-presenteaveis"] },
+  { id: "caixa", label: "Caixa elegante", terms: ["caixa", "elegante", "sofisticado", "sofisticada"], products: ["caixas-presenteaveis", "doces-finos", "trufas"] },
+  { id: "chocolate", label: "Com chocolates", terms: ["chocolate", "chocolates", "bombom", "trufa"], products: ["trufas", "brownie-bites", "mega-bombom", "doces-finos", "capsula-cappuccino"] },
+  { id: "biscoito", label: "Com biscoitos", terms: ["biscoito", "biscoitos", "sequilho", "cafe"], products: ["biscoitos-amanteigados", "sequilho-salgado", "pastelzinho-doce"] },
+  { id: "bolo", label: "Com bolo", terms: ["bolo", "bolinho", "vulcao", "donuts"], products: ["mini-bolo-presente", "mini-vulcao", "mini-cake-donuts"] },
+  { id: "surpresa", label: "Ainda não sei", terms: ["nao sei", "surpresa", "me ajuda", "qualquer", "sugestao"], products: [] },
 ] as const;
 
 export const productAliases: Record<string, string[]> = {

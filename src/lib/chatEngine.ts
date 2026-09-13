@@ -21,8 +21,9 @@ export type ChatContent = {
 };
 
 export type ChatSession = {
-  awaiting?: "product" | "occasion";
+  awaiting?: "product" | "occasion" | "style";
   occasion?: string;
+  occasionLabel?: string;
 };
 
 export type ChatAnswer = {
@@ -70,9 +71,9 @@ export function answerChatAction(value: string, session: ChatSession): ChatAnswe
   if (value.startsWith("occasion:")) return styleMenu(value.replace("occasion:", ""), 0);
   if (value.startsWith("style:menu:")) {
     const [, , occasionId, offset] = value.split(":");
-    return styleMenu(occasionId, Number(offset) || 0);
+    return styleMenu(occasionId, Number(offset) || 0, session.occasionLabel);
   }
-  if (value.startsWith("style:")) return giftResults(session.occasion, value.replace("style:", ""));
+  if (value.startsWith("style:")) return giftResults(session, value.replace("style:", ""));
 
   return fallbackAnswer(session);
 }
@@ -85,7 +86,7 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
     return { content: initialChatContent(), session: {} };
   }
 
-  if (hasAny(query, ["reclamacao", "problema", "errado", "insatisfeito", "insatisfeita", "nao gostei"])) {
+  if (hasAny(query, ["reclamacao", "reclamar", "problema", "errado", "faltou", "atrasou", "estragado", "danificado", "insatisfeito", "insatisfeita", "nao gostei"])) {
     return answer(
       "Sinto muito que sua experiência não tenha acontecido como esperado. Para que a Villa Dolce possa entender e cuidar da situação, fale diretamente pelo WhatsApp e informe seu nome e pedido.",
       {},
@@ -93,7 +94,7 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
     );
   }
 
-  if (hasAny(query, ["alergia", "alergico", "alergica", "intolerancia", "lactose", "gluten", "ingrediente", "restricao alimentar"])) {
+  if (hasAny(query, ["alergia", "alergico", "alergica", "intolerancia", "lactose", "gluten", "ingrediente", "restricao alimentar", "vegano", "vegetariano", "sem acucar", "diabetico", "castanha", "amendoim"])) {
     return answer(
       "Para sua segurança, ingredientes, alergênicos e possíveis adaptações precisam ser confirmados diretamente com a Villa Dolce. Informe qualquer restrição alimentar antes de fazer a encomenda.",
       session,
@@ -101,7 +102,7 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
     );
   }
 
-  if (hasAny(query, ["preco", "valor", "quanto custa", "tabela de preco", "orcamento"])) {
+  if (hasAny(query, ["preco", "valor", "quanto custa", "quanto fica", "tabela de preco", "orcamento", "barato", "caro"])) {
     return answer(
       "Os valores são definidos conforme o produto, quantidade, personalização e detalhes da encomenda. Posso levar suas preferências para uma consulta de orçamento pelo WhatsApp.",
       session,
@@ -109,7 +110,7 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
     );
   }
 
-  if (hasAny(query, ["prazo", "disponibilidade", "quando fica pronto", "antecedencia", "data"])) {
+  if (hasAny(query, ["prazo", "disponibilidade", "quando fica pronto", "antecedencia", "data", "para hoje", "ainda hoje", "amanha", "urgente", "ultima hora"])) {
     return answer(
       "O prazo e a disponibilidade dependem da data, do produto escolhido e da quantidade. A confirmação segura é feita diretamente pela Villa Dolce no WhatsApp.",
       session,
@@ -117,7 +118,7 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
     );
   }
 
-  if (hasAny(query, ["entrega", "retirada", "onde fica", "localizacao", "salvador", "vera cruz", "cidade"])) {
+  if (hasAny(query, ["entrega", "entregam", "delivery", "retirada", "buscar", "onde fica", "localizacao", "endereco", "salvador", "vera cruz", "cidade", "taxa de entrega", "frete"])) {
     return answer(
       `A Villa Dolce atende em ${chatBusiness.locations}. Entrega, retirada, disponibilidade para cada região e possíveis valores são confirmados pelo WhatsApp.`,
       session,
@@ -127,6 +128,54 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
 
   if (hasAny(query, ["horario", "que horas", "abre", "funciona", "atendimento hoje"])) {
     return answer(`O atendimento acontece de ${chatBusiness.hours}.`, session, standardFooterActions);
+  }
+
+  if (hasAny(query, ["pagamento", "pagar", "pix", "cartao", "credito", "debito", "dinheiro", "parcelar", "parcelamento", "sinal"])) {
+    return answer(
+      "As formas e condições de pagamento precisam ser confirmadas diretamente com a Villa Dolce, pois podem variar conforme a encomenda. Posso abrir o WhatsApp para você consultar.",
+      session,
+      standardFooterActions,
+    );
+  }
+
+  if (hasAny(query, ["quantidade minima", "pedido minimo", "minimo", "atacado", "muitas unidades", "cem unidades", "100 unidades"])) {
+    return answer(
+      "A quantidade mínima e as condições para pedidos maiores dependem do produto e da data. Informe o item, a quantidade e o dia desejado para a Villa Dolce avaliar a produção.",
+      session,
+      standardFooterActions,
+    );
+  }
+
+  if (hasAny(query, ["validade", "conservar", "conservacao", "guardar", "geladeira", "dura quanto", "armazenar"])) {
+    return answer(
+      "A conservação e a validade mudam conforme cada produto. Para receber uma orientação segura, confirme o item escolhido diretamente com a Villa Dolce e siga as instruções entregues com a encomenda.",
+      session,
+      standardFooterActions,
+    );
+  }
+
+  if (hasAny(query, ["cancelar", "cancelamento", "alterar pedido", "mudar pedido", "trocar data", "trocar sabor", "corrigir pedido"])) {
+    return answer(
+      "Alterações ou cancelamentos de uma encomenda existente precisam ser tratados diretamente pelo WhatsApp. Informe seu nome, a data combinada e o que precisa ser ajustado.",
+      session,
+      [{ label: "Falar sobre meu pedido", type: "whatsapp", value: "Olá! Preciso falar sobre uma encomenda que já fiz na Villa Dolce." }],
+    );
+  }
+
+  if (hasAny(query, ["instagram", "rede social", "perfil", "insta", "seguir"])) {
+    return answer(
+      `O Instagram da Villa Dolce é ${chatBusiness.instagram}. Lá você pode acompanhar novidades e inspirações das criações.`,
+      session,
+      standardFooterActions,
+    );
+  }
+
+  if (hasAny(query, ["quem e voce", "voce e robo", "voce e humano", "assistente virtual", "como funciona o chat"])) {
+    return answer(
+      "Sou o assistente virtual da Villa Dolce. Uso as informações do próprio site para ajudar com catálogo, presentes e dúvidas frequentes. Para confirmar detalhes comerciais, encaminho você ao atendimento humano pelo WhatsApp.",
+      session,
+      standardFooterActions,
+    );
   }
 
   if (hasAny(query, ["corporativo", "empresa", "equipe", "funcionario", "cliente da empresa"])) {
@@ -151,6 +200,9 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
   if (hasAny(query, ["feedback", "avaliacao", "avaliar", "depoimento", "mural"])) return feedbackAnswer(session);
   if (hasAny(query, ["pedido", "encomenda", "encomendar", "comprar", "whatsapp", "falar com alguem"])) return orderAnswer(session);
 
+  const requestedStyle = chatStyles.find((style) => style.terms.some((term) => includesTerm(query, normalize(term))));
+  if (session.awaiting === "style" && requestedStyle) return giftResults(session, requestedStyle.id);
+
   const directProducts = searchProducts(query);
   if (directProducts.length > 0 && (session.awaiting === "product" || hasProductTerm(query))) {
     return productSearchAnswer(directProducts, session);
@@ -161,9 +213,13 @@ export function answerChatText(input: string, session: ChatSession): ChatAnswer 
     return categoryResults(category.id, 0);
   }
 
-  const occasion = chatOccasions.find((item) => item.terms.some((term) => includesTerm(query, term)));
+  const occasion = chatOccasions.find((item) => item.terms.some((term) => includesTerm(query, normalize(term))));
   if (occasion && hasAny(query, ["presente", "quero", "preciso", "procurando", ...occasion.terms])) {
     return styleMenu(occasion.id, 0);
+  }
+
+  if (session.awaiting === "occasion") {
+    return styleMenu("carinho", 0, input.trim());
   }
 
   if (hasAny(query, ["catalogo", "categorias", "produtos", "cardapio", "opcoes"])) return categoryMenu(0);
@@ -244,7 +300,7 @@ function occasionMenu(offset: number): ChatAnswer {
   );
 }
 
-function styleMenu(occasionId: string, offset: number): ChatAnswer {
+function styleMenu(occasionId: string, offset: number, occasionLabel?: string): ChatAnswer {
   const occasion = chatOccasions.find((item) => item.id === occasionId);
   const styles = chatStyles.slice(offset, offset + 3);
   const actions: ChatAction[] = styles.map((style) => ({
@@ -260,38 +316,43 @@ function styleMenu(occasionId: string, offset: number): ChatAnswer {
   }
 
   return answer(
-    `Ótimo${occasion ? `, para ${occasion.label.toLowerCase()}` : ""}. Qual estilo de presente combina melhor?`,
-    { occasion: occasionId },
+    "Entendi. Qual estilo de presente combina melhor com esse momento?",
+    { occasion: occasionId, occasionLabel: occasionLabel ?? occasion?.label, awaiting: "style" },
     actions,
   );
 }
 
-function giftResults(occasionId = "carinho", styleId: string): ChatAnswer {
-  const occasion = chatOccasions.find((item) => item.id === occasionId) ?? chatOccasions[chatOccasions.length - 1];
+function giftResults(session: ChatSession, styleId: string): ChatAnswer {
+  const occasion = chatOccasions.find((item) => item.id === session.occasion) ?? chatOccasions[chatOccasions.length - 1];
+  const occasionLabel = session.occasionLabel ?? occasion.label;
   const style = chatStyles.find((item) => item.id === styleId) ?? chatStyles[chatStyles.length - 1];
   const styleRank = new Map<string, number>(
     style.products.map((id, index) => [id, style.products.length - index]),
   );
+  const occasionProducts: readonly string[] = occasion.products;
   const products = [...catalogItems]
     .map((item) => ({
       item,
-      score: (styleRank.get(item.id) ?? 0) * 4 + occasion.terms.filter((term) => normalize(item.occasions).includes(term)).length * 3,
+      score:
+        (styleRank.get(item.id) ?? 0) * 4 +
+        (occasionProducts.includes(item.id) ? 10 : 0) +
+        occasion.terms.filter((term) => normalize(item.occasions).includes(normalize(term))).length * 3,
     }))
     .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "pt-BR"))
     .slice(0, 3)
     .map(({ item }) => item);
 
-  const whatsappMessage = `Olá! Vim pelo assistente do site da Villa Dolce.\n\nOcasião: ${occasion.label}\nEstilo desejado: ${style.label}\nGostaria de consultar opções, disponibilidade e orçamento.`;
+  const whatsappMessage = `Olá! Vim pelo assistente do site da Villa Dolce.\n\nOcasião: ${occasionLabel}\nEstilo desejado: ${style.label}\nGostaria de consultar opções, disponibilidade e orçamento.`;
   return {
     content: {
-      text: `Para ${occasion.label.toLowerCase()}, estas opções seguem o estilo “${style.label.toLowerCase()}”. A composição final pode ser personalizada com a Villa Dolce.`,
+      text: `Pensando em ${occasionLabel.toLowerCase()}, estas opções seguem o estilo “${style.label.toLowerCase()}”. A composição final pode ser personalizada com a Villa Dolce.`,
       products,
       actions: [
         { label: "Escolher outra ocasião", type: "reply", value: "gift:start" },
         { label: "Consultar pelo WhatsApp", type: "whatsapp", value: whatsappMessage },
       ],
     },
-    session: { occasion: occasion.id },
+    session: { occasion: occasion.id, occasionLabel },
   };
 }
 
