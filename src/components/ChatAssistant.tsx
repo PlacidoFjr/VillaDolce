@@ -1,11 +1,18 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
+  BookOpen,
   Check,
+  ChevronRight,
+  Clock3,
+  Gift,
+  Heart,
   MessageCircleHeart,
   RotateCcw,
+  Search,
   Send,
   ShoppingBag,
+  Sparkles,
   X,
 } from "lucide-react";
 import {
@@ -60,6 +67,20 @@ function readStoredChat(): StoredChat {
   } catch {
     return freshConversation();
   }
+}
+
+function ActionIcon({ action }: { action: ChatAction }) {
+  if (action.type === "whatsapp") return <ArrowUpRight size={15} aria-hidden="true" />;
+  if (action.type === "reset") return <RotateCcw size={15} aria-hidden="true" />;
+  if (action.type === "navigate") return <Heart size={15} aria-hidden="true" />;
+  if (action.value.startsWith("catalog") || action.value.startsWith("category")) return <BookOpen size={15} aria-hidden="true" />;
+  if (action.value.startsWith("gift") || action.value.startsWith("occasion")) return <Gift size={15} aria-hidden="true" />;
+  if (action.value.startsWith("style")) return <Sparkles size={15} aria-hidden="true" />;
+  if (action.value.startsWith("search")) return <Search size={15} aria-hidden="true" />;
+  if (action.value === "order") return <ShoppingBag size={15} aria-hidden="true" />;
+  if (action.value === "service") return <Clock3 size={15} aria-hidden="true" />;
+  if (action.value === "feedback") return <Heart size={15} aria-hidden="true" />;
+  return <ChevronRight size={15} aria-hidden="true" />;
 }
 
 export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
@@ -166,10 +187,14 @@ export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
   return (
     <aside className={`chat-assistant${isOpen ? " is-open" : ""}`} aria-label="Assistente Villa Dolce">
       {isOpen && (
-        <section className="chat-panel" id="villa-dolce-assistant" aria-label="Conversa com o assistente Villa Dolce">
+        <section
+          className={`chat-panel${messages.length === 1 ? " is-fresh" : ""}`}
+          id="villa-dolce-assistant"
+          aria-label="Conversa com o assistente Villa Dolce"
+        >
           <header className="chat-header">
             <div className="chat-brand-mark" aria-hidden="true">
-              <MessageCircleHeart size={20} strokeWidth={1.8} />
+              <img src="/assets/logo-villa-dolce.jpeg" alt="" />
             </div>
             <div className="chat-header-copy">
               <strong>Assistente Villa Dolce</strong>
@@ -218,8 +243,8 @@ export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                         type="button"
                         onClick={() => handleAction(action)}
                       >
-                        {action.label}
-                        {action.type === "whatsapp" && <ArrowUpRight size={14} aria-hidden="true" />}
+                        <ActionIcon action={action} />
+                        <span>{action.label}</span>
                       </button>
                     ))}
                   </div>
@@ -255,6 +280,8 @@ export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
         </section>
       )}
 
+      {!isOpen && <span className="chat-launcher-label" aria-hidden="true">Posso ajudar?</span>}
+
       <button
         className="chat-launcher"
         type="button"
@@ -265,7 +292,7 @@ export function ChatAssistant({ onNavigate }: ChatAssistantProps) {
         onClick={() => setIsOpen((current) => !current)}
       >
         {isOpen ? <X size={23} /> : <MessageCircleHeart size={25} />}
-        {!isOpen && <span aria-hidden="true" />}
+        {!isOpen && <span className="chat-launcher-status" aria-hidden="true" />}
       </button>
     </aside>
   );
