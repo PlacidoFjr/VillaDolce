@@ -217,8 +217,8 @@ export function FeedbackAdminPage({ onNavigate }: FeedbackAdminPageProps) {
                         <CheckCircle2 aria-hidden="true" size={17} /> Publicar no mural
                       </button>
                     )}
-                    <button className="button secondary" type="button" onClick={() => void downloadFeedbackStory(feedback)}>
-                      <Download aria-hidden="true" size={17} /> Baixar Story
+                    <button className="button secondary" type="button" onClick={() => void downloadFeedbackStory(feedback).catch((downloadError) => setError((downloadError as Error).message))}>
+                      <Download aria-hidden="true" size={17} /> Salvar Story
                     </button>
                   </div>
                 </article>

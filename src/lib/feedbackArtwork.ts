@@ -39,6 +39,30 @@ async function loadLogo(): Promise<HTMLImageElement> {
   return image;
 }
 
+function canvasToPng(canvas: HTMLCanvasElement): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob);
+        return;
+      }
+
+      reject(new Error("Não foi possível preparar a imagem do Story."));
+    }, "image/png");
+  });
+}
+
+function feedbackFilename(name: string) {
+  const safeName = name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return `feedback-villa-dolce-${safeName || "cliente"}.png`;
+}
+
 export async function downloadFeedbackStory(feedback: FeedbackEntry) {
   await document.fonts.ready;
 
@@ -108,8 +132,27 @@ export async function downloadFeedbackStory(feedback: FeedbackEntry) {
   context.font = "500 22px Inter, Arial";
   context.fillText("Cestas afetivas & delícias artesanais", 540, 1740);
 
+  const blob = await canvasToPng(canvas);
+  const filename = feedbackFilename(feedback.name);
+  const file = new File([blob], filename, { type: "image/png", lastModified: Date.now() });
+  const shareData = { files: [file], title: "Feedback Villa Dolce" };
+
+  if (typeof navigator.share === "function" && navigator.canShare?.(shareData)) {
+    try {
+      await navigator.share(shareData);
+      return;
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+    }
+  }
+
+  const objectUrl = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  link.download = `feedback-villa-dolce-${feedback.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`;
-  link.href = canvas.toDataURL("image/png");
+  link.download = filename;
+  link.href = objectUrl;
+  link.rel = "noopener";
+  document.body.appendChild(link);
   link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(objectUrl), 60_000);
 }
