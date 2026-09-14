@@ -63,6 +63,11 @@ function feedbackFilename(name: string) {
   return `feedback-villa-dolce-${safeName || "cliente"}.png`;
 }
 
+function isAppleMobileDevice() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
 export async function downloadFeedbackStory(feedback: FeedbackEntry) {
   await document.fonts.ready;
 
@@ -137,7 +142,7 @@ export async function downloadFeedbackStory(feedback: FeedbackEntry) {
   const file = new File([blob], filename, { type: "image/png", lastModified: Date.now() });
   const shareData = { files: [file], title: "Feedback Villa Dolce" };
 
-  if (typeof navigator.share === "function" && navigator.canShare?.(shareData)) {
+  if (isAppleMobileDevice() && typeof navigator.share === "function" && navigator.canShare?.(shareData)) {
     try {
       await navigator.share(shareData);
       return;
