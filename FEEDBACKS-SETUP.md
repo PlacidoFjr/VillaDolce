@@ -28,3 +28,13 @@ on conflict (user_id) do nothing;
 Depois disso, acesse `/admin/feedbacks`. O painel permite aprovar ou retirar depoimentos do mural e baixar a arte de cada feedback em PNG para o Instagram. A sessão é encerrada ao fechar a aba do navegador.
 
 O QR Code usado nas embalagens deve apontar para `https://SEU-DOMINIO/feedbacks`. Ele não é exibido dentro da página, pois será aplicado diretamente nos materiais da Villa Dolce.
+
+## Manter o projeto Supabase ativo
+
+O deploy da Vercel registra um cron job que chama `/api/keepalive` diariamente às `03:17 UTC`. A função faz somente uma leitura mínima da tabela `feedbacks` (`select=id&limit=1`), suficiente para gerar atividade real no banco sem modificar registros.
+
+O cron usa as variáveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` já configuradas na Vercel. Por padrão, o endpoint aceita apenas chamadas com o agente oficial `vercel-cron/1.0`.
+
+Como proteção adicional, é possível criar uma variável secreta `CRON_SECRET` na Vercel com pelo menos 16 caracteres. Quando ela existe, a função passa a exigir automaticamente o cabeçalho `Authorization` enviado pela própria Vercel.
+
+Depois do deploy, o agendamento pode ser conferido em **Vercel > Project Settings > Cron Jobs**. Falhas de execução aparecem em **View Logs**.
