@@ -1712,14 +1712,6 @@ h3 {
   transition: transform 280ms var(--ease-premium), border-color 280ms ease, box-shadow 280ms ease;
 }
 
-.feedback-card:nth-child(3n + 2) {
-  background: #f4e8da;
-}
-
-.feedback-card:nth-child(3n + 3) {
-  background: #f4efe7;
-}
-
 .feedback-card:hover {
   border-color: rgba(184, 138, 67, 0.42);
   box-shadow: 0 24px 54px rgba(59, 33, 20, 0.1);
