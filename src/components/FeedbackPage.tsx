@@ -21,7 +21,7 @@ const emptyForm = {
 };
 
 export function FeedbackPage({ onNavigate }: FeedbackPageProps) {
-  const [activeView, setActiveView] = useState<"form" | "wall">("form");
+  const [activeView, setActiveView] = useState<"form" | "wall">("wall");
   const [form, setForm] = useState(emptyForm);
   const [feedbacks, setFeedbacks] = useState<FeedbackEntry[]>([]);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
