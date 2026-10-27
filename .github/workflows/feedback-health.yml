@@ -1,0 +1,53 @@
+name: Feedback health check
+
+on:
+  schedule:
+    - cron: "43 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - api/keepalive.js
+      - .github/workflows/feedback-health.yml
+
+permissions: {}
+
+concurrency:
+  group: feedback-health
+  cancel-in-progress: false
+
+jobs:
+  check-feedback-database:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      HEALTH_URL: https://villa-dolce.vercel.app/api/keepalive
+    steps:
+      - name: Check the production database connection
+        shell: bash
+        run: |
+          set -euo pipefail
+          headers=(-H 'User-Agent: VillaDolce-HealthCheck/1.0')
+          if [[ -n "$CRON_SECRET" ]]; then
+            headers+=(-H "Authorization: Bearer $CRON_SECRET")
+          fi
+          curl --fail-with-body --silent --show-error \
+            --proto '=https' --connect-timeout 10 --max-time 20 \
+            --retry 3 --retry-all-errors --retry-delay 15 --retry-max-time 90 \
+            "${headers[@]}" "$HEALTH_URL" --output /tmp/feedback-health.json
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          const result = JSON.parse(readFileSync('/tmp/feedback-health.json', 'utf8'));
+          if (result.ok !== true || !Number.isFinite(Date.parse(result.checkedAt))) {
+            throw new Error('Feedback database health check failed.');
+          }
+          console.log(`Feedback database healthy: ${result.checkedAt}`);
+          NODE
+      - name: Record the result
+        if: always()
+        env:
+          CHECK_STATUS: ${{ job.status }}
+        shell: bash
+        run: |
+          printf 'Feedback database health: **%s**\n' "$CHECK_STATUS" >> "$GITHUB_STEP_SUMMARY"

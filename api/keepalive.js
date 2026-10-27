@@ -9,10 +9,12 @@ function isAuthorizedCron(request) {
   const userAgent = requestHeader(request, "user-agent");
 
   if (cronSecret) return authorization === `Bearer ${cronSecret}`;
-  return userAgent.includes("vercel-cron/1.0");
+  // User agents identify monitors; only CRON_SECRET authenticates requests.
+  return userAgent.includes("vercel-cron/1.0") || userAgent === "VillaDolce-HealthCheck/1.0";
 }
 
 export default async function handler(request, response) {
+  response.setHeader("Cache-Control", "no-store");
   if (request.method !== "GET") {
     response.setHeader("Allow", "GET");
     return response.status(405).json({ ok: false, error: "Method not allowed" });
@@ -33,6 +35,22 @@ export default async function handler(request, response) {
     ? configuredUrl
     : `${configuredUrl}/rest/v1`;
 
+  const startedAt = Date.now();
+  const source = requestHeader(request, "user-agent") === "VillaDolce-HealthCheck/1.0"
+    ? "github-health-check"
+    : "vercel-cron";
+  function logResult(ok, upstreamStatus, reason) {
+    console[ok ? "info" : "error"](JSON.stringify({
+      event: "supabase_keepalive",
+      source,
+      ok,
+      upstreamStatus,
+      reason,
+      durationMs: Date.now() - startedAt,
+      checkedAt: new Date().toISOString(),
+    }));
+  }
+
   try {
     const supabaseResponse = await fetch(`${restUrl}/feedbacks?select=id&limit=1`, {
       headers: {
@@ -40,9 +58,11 @@ export default async function handler(request, response) {
         Authorization: `Bearer ${supabaseKey}`,
       },
       cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
     });
 
     if (!supabaseResponse.ok) {
+      logResult(false, supabaseResponse.status, "upstream_error");
       return response.status(502).json({
         ok: false,
         error: "Supabase keepalive failed",
@@ -50,11 +70,14 @@ export default async function handler(request, response) {
       });
     }
 
+    logResult(true, supabaseResponse.status, "healthy");
     return response.status(200).json({
       ok: true,
       checkedAt: new Date().toISOString(),
     });
-  } catch {
+  } catch (error) {
+    const reason = error?.name === "TimeoutError" ? "timeout" : "unreachable";
+    logResult(false, null, reason);
     return response.status(502).json({ ok: false, error: "Supabase is unreachable" });
   }
 }
