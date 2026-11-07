@@ -97,10 +97,6 @@ def base(page, dark=False):
     fg = LIGHT if dark else INK
     c.setFillColor(HexColor(DARK if dark else LIGHT))
     c.rect(0, 0, W, H, stroke=0, fill=1)
-    if page != 1:
-        text(M, H-35, "VILLA DOLCE ATELIÊ", "Display", 11)
-        text(W-M, H-35, "CARDÁPIO", "Body", 8, align="right")
-        rule(H-48)
     text(W/2, 28, str(page), size=8, align="center")
 
 
@@ -116,11 +112,11 @@ c.showPage()
 
 for index, page in enumerate(PAGES, start=2):
     base(index, page.get("dark", False))
-    title_lines = wrap(page["title"], "Display", 32, W-2*M)
-    y = H-103
+    title_lines = wrap(page["title"], "Display", 35, W-2*M)
+    y = H-70
     for value in title_lines:
-        text(M, y, value, "Display", 32)
-        y -= 36
+        text(M, y, value, "Display", 35)
+        y -= 40
     if page.get("subtitle"):
         text(M, y+2, page["subtitle"], "Body", 12)
         y -= 25
@@ -128,31 +124,33 @@ for index, page in enumerate(PAGES, start=2):
         for value in wrap(page["flavor"], "Italic", 15, W-2*M):
             text(M, y+1, value, "Italic", 15)
             y -= 19
-    y -= 22
+    y -= 30
     count = len(page["items"])
-    step = 99 if count == 3 else 153
+    step = 132 if count == 3 else 178
+    if count == 1:
+        y -= 65
     if page.get("extras"):
-        step = 70
+        step = 78
     for item in page["items"]:
         item_font = "Display"
-        item_size = 21
-        lines = wrap(item["name"], item_font, item_size, W-2*M-88)
+        item_size = 23
+        lines = wrap(item["name"], item_font, item_size, W-2*M-95)
         for i, value in enumerate(lines):
-            text(M, y-i*24, value, item_font, item_size)
-        text(W-M, y, f"R$ {item['price']}", "Body", 15, align="right")
-        bottom = y-(len(lines)-1)*24-15
+            text(M, y-i*27, value, item_font, item_size)
+        text(W-M, y, f"R$ {item['price']}", "Body", 16, align="right")
+        bottom = y-(len(lines)-1)*27-17
         rule(bottom)
         detail_y = bottom-23
         if item.get("flavor"):
-            for value in wrap(item["flavor"], "Italic", 16, W-2*M):
-                text(M, detail_y, value, "Italic", 16)
-                detail_y -= 20
+            for value in wrap(item["flavor"], "Italic", 17, W-2*M):
+                text(M, detail_y, value, "Italic", 17)
+                detail_y -= 22
         if item.get("detail"):
-            for value in wrap(item["detail"], "Body", 10, W-2*M):
-                text(M, detail_y, value, size=10)
-                detail_y -= 15
+            for value in wrap(item["detail"], "Body", 11, W-2*M):
+                text(M, detail_y, value, size=11)
+                detail_y -= 16
         assert detail_y > 70, (index, item["name"], detail_y)
-        y -= max(step, (len(lines)-1)*24 + (bottom-detail_y) + 30)
+        y -= max(step, (len(lines)-1)*27 + (bottom-detail_y) + 34)
     if page.get("extras"):
         y -= 1
         text(M, y, "Adicionais", "Display", 19)
@@ -162,8 +160,6 @@ for index, page in enumerate(PAGES, start=2):
             text(W-M, y, f"R$ {price}", size=10, align="right")
             y -= 19
         assert y > 65, ("extras", y)
-    note = page.get("note", "Aceitamos encomendas. Consulte valores.")
-    text(W/2, 58, note, size=8.2, align="center")
     c.showPage()
 
 base(12)
@@ -171,8 +167,8 @@ c.drawImage(str(ROOT / "output/pdf/logo-villa-dolce-transparente.png"),
             (W-155)/2, 365, 155, 155, mask="auto")
 text(W/2, 326, "Seu próximo momento", "Display", 28, align="center")
 text(W/2, 287, "pode ser mais doce.", "Display", 28, align="center")
-for i, value in enumerate(["Para encomendas e tamanhos especiais,",
-                           "consulte opções e disponibilidade."]):
+for i, value in enumerate(["Aceitamos encomendas e tamanhos variados.",
+                           "Consulte valores, opções e disponibilidade."]):
     text(W/2, 245-i*19, value, size=11, align="center")
 text(W/2, 160, "@villadolceatelie", "Bold", 13, align="center")
 text(W/2, 81, "Feito com carinho, do primeiro ao último detalhe.", "Italic", 12, align="center")
@@ -194,6 +190,7 @@ for left, right in pairs:
         dest.show_pdf_page(pymupdf.Rect(slot*PW/2, 0, (slot+1)*PW/2, PH), source, pno)
 imposed.save(OUT / "villa-dolce-cardapio-impressao-livreto.pdf", deflate=True)
 imposed[0].get_pixmap(dpi=70).save(OUT / "previa-impressao.png")
+source[-1].get_pixmap(dpi=90).save(OUT / "previa-contracapa.png")
 
 # Validate every extracted text span is inside its page and all supplied prices survived export.
 for page in source:
