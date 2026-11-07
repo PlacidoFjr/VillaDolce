@@ -1,0 +1,186 @@
+[
+  {
+    "title": "Empadas",
+    "items": [
+      {
+        "name": "Empada salgada",
+        "price": "10,00",
+        "flavor": "Camarão ou sertaneja"
+      },
+      {
+        "name": "Empada salgada",
+        "price": "8,00",
+        "flavor": "Frango ou calabresa"
+      },
+      {
+        "name": "Empada doce",
+        "price": "7,00",
+        "flavor": "Leite condensado"
+      }
+    ]
+  },
+  {
+    "title": "Para acompanhar",
+    "items": [
+      {
+        "name": "Sequilho salgado",
+        "price": "8,00",
+        "flavor": "Cebola ou queijo"
+      },
+      {
+        "name": "Pastel doce",
+        "price": "10,00",
+        "flavor": "Goiabada",
+        "detail": "Contém 6 unidades"
+      }
+    ]
+  },
+  {
+    "title": "Mini cake donuts",
+    "dark": true,
+    "items": [
+      {
+        "name": "Mini cake donuts",
+        "price": "10,00",
+        "detail": "Contém 4 unidades"
+      },
+      {
+        "name": "Mini cake donuts recheado",
+        "price": "14,00",
+        "detail": "Contém 4 unidades"
+      }
+    ]
+  },
+  {
+    "title": "Delícias no potinho",
+    "dark": true,
+    "items": [
+      {
+        "name": "Potinho de amanteigados",
+        "price": "18,00",
+        "detail": "Contém 12 unidades"
+      },
+      {
+        "name": "Potinho de recheados",
+        "price": "24,00",
+        "detail": "Contém 6 unidades"
+      }
+    ]
+  },
+  {
+    "title": "Pipoca gourmet",
+    "items": [
+      {
+        "name": "Pipoca gourmet",
+        "price": "14,00",
+        "flavor": "Ninho ou Ovomaltine",
+        "detail": "Pacote ziplock"
+      }
+    ]
+  },
+  {
+    "title": "Biscoitos",
+    "items": [
+      {
+        "name": "Biscoito amanteigado",
+        "price": "14,00",
+        "flavor": "Tradicional ou chocolate",
+        "detail": "Pacote ziplock · Contém 12 unidades"
+      },
+      {
+        "name": "Biscoito recheado",
+        "price": "20,00",
+        "flavor": "Brigadeiro, Ninho ou doce de leite",
+        "detail": "Pacote ziplock · Contém 6 unidades"
+      }
+    ]
+  },
+  {
+    "title": "Empadão",
+    "subtitle": "Marmita de 220 ml",
+    "note": "Encomendas em tamanhos variados: consulte valores.",
+    "items": [
+      {
+        "name": "Frango com requeijão",
+        "price": "15,00"
+      },
+      {
+        "name": "Costela com requeijão",
+        "price": "18,00"
+      },
+      {
+        "name": "Camarão com requeijão",
+        "price": "20,00"
+      }
+    ]
+  },
+  {
+    "title": "Empadão",
+    "subtitle": "Marmita de 500 ml",
+    "note": "Encomendas em tamanhos variados: consulte valores.",
+    "items": [
+      {
+        "name": "Frango com requeijão",
+        "price": "32,00"
+      },
+      {
+        "name": "Costela com requeijão",
+        "price": "38,00"
+      },
+      {
+        "name": "Camarão com requeijão",
+        "price": "45,00"
+      }
+    ]
+  },
+  {
+    "title": "Bolo caseirinho",
+    "subtitle": "Com cobertura",
+    "flavor": "Tradicional, chocolate, limão, laranja ou maracujá",
+    "items": [
+      {
+        "name": "Pequeno",
+        "price": "35,00",
+        "detail": "6 a 8 fatias"
+      },
+      {
+        "name": "Médio",
+        "price": "55,00",
+        "detail": "10 a 12 fatias"
+      },
+      {
+        "name": "Grande",
+        "price": "70,00",
+        "detail": "15 a 20 fatias"
+      }
+    ],
+    "extras": [
+      [
+        "Morangos frescos",
+        "7,00"
+      ],
+      [
+        "Geleia de morango",
+        "5,00"
+      ],
+      [
+        "Nutella",
+        "7,00"
+      ]
+    ]
+  },
+  {
+    "title": "Cápsulas de cappuccino",
+    "dark": true,
+    "items": [
+      {
+        "name": "2 unidades",
+        "price": "10,00"
+      },
+      {
+        "name": "4 unidades",
+        "price": "18,00"
+      }
+    ]
+  }
+]
