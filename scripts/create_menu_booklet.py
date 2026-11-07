@@ -15,7 +15,8 @@ OUT = ROOT / "output" / "cardapio-livrinho"
 OUT.mkdir(parents=True, exist_ok=True)
 for name, filename in [("Display", "GARA.TTF"), ("DisplayBold", "GARABD.TTF"),
                        ("Italic", "GARAIT.TTF"), ("Body", "arial.ttf"),
-                       ("Bold", "arialbd.ttf")]:
+                       ("Bold", "arialbd.ttf"), ("Calligraphy", "FRSCRIPT.TTF"),
+                       ("Handwriting", "FREESCPT.TTF")]:
     pdfmetrics.registerFont(TTFont(name, f"C:/Windows/Fonts/{filename}"))
 
 # Values, flavors and pack sizes transcribed from the supplied artwork, not the website.
@@ -97,7 +98,7 @@ def base(page, dark=False):
     fg = LIGHT if dark else INK
     c.setFillColor(HexColor(DARK if dark else LIGHT))
     c.rect(0, 0, W, H, stroke=0, fill=1)
-    text(M, H-35, "VILLA DOLCE ATELIÊ", "Bold", 8)
+    text(M, H-35, "VILLA DOLCE ATELIÊ", "Display", 11)
     text(W-M, H-35, "CARDÁPIO", "Body", 8, align="right")
     rule(H-48)
     text(M, 28, "@villadolceatelie", size=8)
@@ -108,7 +109,7 @@ def base(page, dark=False):
 base(1)
 c.drawImage(str(ROOT / "output/pdf/logo-villa-dolce-transparente.png"),
             (W-214)/2, 303, 214, 214, mask="auto")
-text(W/2, 255, "Cardápio", "Display", 49, align="center")
+text(W/2, 250, "Cardápio", "Calligraphy", 65, align="center")
 text(W/2, 222, "Para consumir, celebrar", "Italic", 18, align="center")
 text(W/2, 200, "e presentear.", "Italic", 18, align="center")
 text(W/2, 115, "Delícias feitas com cuidado.", size=11, align="center")
@@ -117,35 +118,37 @@ c.showPage()
 
 for index, page in enumerate(PAGES, start=2):
     base(index, page.get("dark", False))
-    title_lines = wrap(page["title"], "Display", 32, W-2*M)
-    y = H-99
+    title_lines = wrap(page["title"], "Calligraphy", 44, W-2*M)
+    y = H-103
     for value in title_lines:
-        text(M, y, value, "Display", 32)
-        y -= 36
+        text(M, y, value, "Calligraphy", 44)
+        y -= 46
     if page.get("subtitle"):
         text(M, y+2, page["subtitle"], "Body", 12)
         y -= 25
     if page.get("flavor"):
-        for value in wrap(page["flavor"], "Italic", 14, W-2*M):
-            text(M, y+1, value, "Italic", 14)
-            y -= 17
+        for value in wrap(page["flavor"], "Handwriting", 21, W-2*M):
+            text(M, y+1, value, "Handwriting", 21)
+            y -= 24
     y -= 22
     count = len(page["items"])
     step = 99 if count == 3 else 153
     if page.get("extras"):
         step = 70
     for item in page["items"]:
-        lines = wrap(item["name"], "DisplayBold", 21, W-2*M-88)
+        item_font = "Handwriting" if page["title"] == "Empadão" else "Display"
+        item_size = 25 if page["title"] == "Empadão" else 21
+        lines = wrap(item["name"], item_font, item_size, W-2*M-88)
         for i, value in enumerate(lines):
-            text(M, y-i*24, value, "DisplayBold", 21)
+            text(M, y-i*24, value, item_font, item_size)
         text(W-M, y, f"R$ {item['price']}", "Body", 15, align="right")
         bottom = y-(len(lines)-1)*24-15
         rule(bottom)
         detail_y = bottom-23
         if item.get("flavor"):
-            for value in wrap(item["flavor"], "Italic", 16, W-2*M):
-                text(M, detail_y, value, "Italic", 16)
-                detail_y -= 20
+            for value in wrap(item["flavor"], "Handwriting", 23, W-2*M):
+                text(M, detail_y, value, "Handwriting", 23)
+                detail_y -= 26
         if item.get("detail"):
             for value in wrap(item["detail"], "Body", 10, W-2*M):
                 text(M, detail_y, value, size=10)
@@ -154,7 +157,7 @@ for index, page in enumerate(PAGES, start=2):
         y -= max(step, (len(lines)-1)*24 + (bottom-detail_y) + 30)
     if page.get("extras"):
         y -= 1
-        text(M, y, "Adicionais", "DisplayBold", 17)
+        text(M, y, "Adicionais", "Calligraphy", 26)
         y -= 23
         for name, price in page["extras"]:
             text(M, y, name, size=10)
@@ -168,8 +171,8 @@ for index, page in enumerate(PAGES, start=2):
 base(12)
 c.drawImage(str(ROOT / "output/pdf/logo-villa-dolce-transparente.png"),
             (W-155)/2, 365, 155, 155, mask="auto")
-text(W/2, 326, "Seu próximo momento", "Display", 28, align="center")
-text(W/2, 294, "pode ser mais doce.", "Display", 28, align="center")
+text(W/2, 326, "Seu próximo momento", "Calligraphy", 37, align="center")
+text(W/2, 287, "pode ser mais doce.", "Calligraphy", 37, align="center")
 for i, value in enumerate(["Para encomendas e tamanhos especiais,",
                            "consulte opções e disponibilidade."]):
     text(W/2, 245-i*19, value, size=11, align="center")
@@ -194,6 +197,7 @@ for left, right in pairs:
     for slot, pno in enumerate((left, right)):
         dest.show_pdf_page(pymupdf.Rect(slot*PW/2, 0, (slot+1)*PW/2, PH), source, pno)
 imposed.save(OUT / "villa-dolce-cardapio-impressao-livreto.pdf", deflate=True)
+imposed[0].get_pixmap(dpi=70).save(OUT / "previa-impressao.png")
 
 # Validate every extracted text span is inside its page and all supplied prices survived export.
 for page in source:
