@@ -100,7 +100,7 @@ def base(page, dark=False):
     text(M, H-35, "VILLA DOLCE ATELIÊ", "Display", 11)
     text(W-M, H-35, "CARDÁPIO", "Body", 8, align="right")
     rule(H-48)
-    text(W-M, 28, f"{page:02d} / 12", size=8, align="right")
+    text(W/2, 28, str(page), size=8, align="center")
 
 
 base(1)
