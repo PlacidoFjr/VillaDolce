@@ -100,9 +100,7 @@ def base(page, dark=False):
     text(M, H-35, "VILLA DOLCE ATELIÊ", "Display", 11)
     text(W-M, H-35, "CARDÁPIO", "Body", 8, align="right")
     rule(H-48)
-    text(M, 28, "@villadolceatelie", size=8)
     text(W-M, 28, f"{page:02d} / 12", size=8, align="right")
-    c.linkURL("https://www.instagram.com/villadolceatelie/", (M, 22, M+130, 40))
 
 
 base(1)
@@ -176,8 +174,6 @@ for i, value in enumerate(["Para encomendas e tamanhos especiais,",
                            "consulte opções e disponibilidade."]):
     text(W/2, 245-i*19, value, size=11, align="center")
 text(W/2, 160, "@villadolceatelie", "Bold", 13, align="center")
-text(W/2, 135, "villa-dolce.vercel.app", size=11, align="center")
-c.linkURL("https://villa-dolce.vercel.app/catalogo", (80, 122, W-80, 150))
 text(W/2, 81, "Feito com carinho, do primeiro ao último detalhe.", "Italic", 12, align="center")
 c.showPage()
 c.save()
