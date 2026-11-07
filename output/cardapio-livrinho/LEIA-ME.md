@@ -22,6 +22,6 @@ Produtos, sabores, quantidades e valores transcritos das dez referencias forneci
 
 `conteudo-cardapio.json` registra o conteudo exportado. Para alterar e regenerar, editar PAGES em `scripts/create_menu_booklet.py` e executar `python scripts/create_menu_booklet.py` na raiz do projeto. O JSON e uma saida, nao a entrada do gerador.
 
-Tipografia: French Script nos titulos, Freestyle Script nos sabores e recheios, Garamond nos produtos e Arial nos precos e informacoes. As fontes estao incorporadas aos PDFs.
+Tipografia: Garamond regular nos titulos e produtos, Garamond italico nos sabores e recheios e Arial nos precos e informacoes. Sem fontes caligraficas ornamentadas. As fontes estao incorporadas aos PDFs.
 
-Dependencias: reportlab, pymupdf, pypdf (gerador anterior), Pillow; fontes Garamond, Arial, French Script e Freestyle Script do Windows. A logo PNG transparente e compartilhada com o cardapio anterior em output/pdf.
+Dependencias: reportlab, pymupdf, pypdf (gerador anterior), Pillow; fontes Garamond e Arial do Windows. A logo PNG transparente e compartilhada com o cardapio anterior em output/pdf.
