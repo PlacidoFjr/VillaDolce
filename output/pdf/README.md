@@ -6,4 +6,4 @@
 
 Os precos estao em branco e nao foram inventados. Confirmar unidade, tamanho ou quantidade de venda antes de publicar valores. A imagem e estatica: preencher o PDF nao atualiza o JPG automaticamente.
 
-Geracao no Windows: instalar `reportlab`, `pymupdf` e `pypdf` e executar `python scripts/create_menu.py` na raiz do projeto. O script utiliza fontes Garamond e Arial do Windows e a logo existente em `public/assets`. Nenhuma pagina do site e alterada.
+Geracao no Windows: instalar `reportlab`, `pymupdf` e `pypdf` e executar `python scripts/create_menu.py` na raiz do projeto. O script utiliza fontes Garamond e Arial do Windows e `logo-villa-dolce-transparente.png` desta pasta. Nenhuma pagina do site e alterada.

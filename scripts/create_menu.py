@@ -43,7 +43,7 @@ def line(x1, y1, x2, y2, color=RULE, width=0.5):
     c.line(x1, y1, x2, y2)
 
 
-c.drawImage(str(ROOT / "public/assets/logo-villa-dolce.jpeg"), 39, 675, 110, 110)
+c.drawImage(str(OUT / "logo-villa-dolce-transparente.png"), 39, 675, 110, 110, mask="auto")
 text(179, 763, "VILLA DOLCE ATELIÊ", "BodyBold", 10, GOLD)
 text(176, 709, "Cardápio", "Garamond", 49)
 text(179, 683, "Para consumir, celebrar e presentear.", "GaramondItalic", 13, MUTED)
