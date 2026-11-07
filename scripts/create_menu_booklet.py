@@ -97,9 +97,10 @@ def base(page, dark=False):
     fg = LIGHT if dark else INK
     c.setFillColor(HexColor(DARK if dark else LIGHT))
     c.rect(0, 0, W, H, stroke=0, fill=1)
-    text(M, H-35, "VILLA DOLCE ATELIÊ", "Display", 11)
-    text(W-M, H-35, "CARDÁPIO", "Body", 8, align="right")
-    rule(H-48)
+    if page != 1:
+        text(M, H-35, "VILLA DOLCE ATELIÊ", "Display", 11)
+        text(W-M, H-35, "CARDÁPIO", "Body", 8, align="right")
+        rule(H-48)
     text(W/2, 28, str(page), size=8, align="center")
 
 
